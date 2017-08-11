@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Combat\AttackRange.vb" />
+    <Compile Include="Common.vb" />
     <Compile Include="Composite\BodyPart.vb" />
     <Compile Include="Composite\CombatLimb.vb" />
     <Compile Include="Composite\Component.vb" />

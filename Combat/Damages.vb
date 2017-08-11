@@ -29,6 +29,23 @@ Public Structure Damage
     Public Overrides Function ToString() As String
         Return Min & " - " & Max & " " & Type.ToString
     End Function
+    Public Function Roll() As Integer
+        Dim total As Integer = 0
+        For n = 1 To 3
+            total += Rng.Next(Min, Max + 1)
+        Next
+        Return Math.Round(total / 3)
+    End Function
+
+    Public Shared Function Construct(ByVal value As String) As Damage
+        Dim ln As String() = value.Split(" ")
+        Dim Min As Integer = CInt(ln(0).Trim)
+        Dim Max As Integer = CInt(ln(2).Trim)
+        Dim t As DamageType = String2Enum(Of DamageType)(ln(3).Trim)
+
+        If t = Nothing Then Return Nothing
+        Return New Damage(Min, Max, t)
+    End Function
     Public Shared Operator +(ByVal d1 As Damage, ByVal d2 As Damage) As Damage
         Dim dmg As New Damage
         With dmg
