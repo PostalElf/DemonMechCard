@@ -1,5 +1,6 @@
-[Test Blueprint 01]
-Slot: Test 01
-Slot: Test 02
+[Testgun]
+Slot: Gun
+ComponentType: Testgem
+ComponentType: Testhandle
 Accuracy: -5
-AttackRangeRemove: Far
+AttackRangeRemove: Average

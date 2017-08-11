@@ -1,10 +1,10 @@
 ﻿Public Class Blueprint
-    Public DesignName As String
-    Private BlueprintName As String
-    Private Components As New List(Of Component)
-    Private BlueprintModifier As New Component
-    Private SlotsEmpty As New List(Of String)
-    Private SlotsFilled As New List(Of String)
+    Protected BlueprintName As String                       'what the blueprint pattern is called
+    Protected Slot As String                                'what the bodypart slot will be called
+    Protected Components As New List(Of Component)
+    Protected BlueprintModifier As New Component
+    Protected ComponentTypesEmpty As New List(Of String)
+    Protected ComponentTypesFilled As New List(Of String)
 
     Public Overloads Shared Function Load(ByVal blueprintName As String) As Blueprint
         Dim raw As Queue(Of String) = SquareBracketLoader("data/blueprints.txt", blueprintName)
@@ -22,37 +22,39 @@
         End With
         Return blueprint
     End Function
-    Private Sub Build(ByVal key As String, ByVal value As String)
+    Protected Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
-            Case "Slot" : SlotsEmpty.Add(value)
+            Case "ComponentType" : ComponentTypesEmpty.Add(value)
+            Case "Slot" : Slot = value
             Case Else : BlueprintModifier.Build(key, value)
         End Select
     End Sub
-    Public Function Construct() As BodyPart
-        If SlotsEmpty.Count > 0 Then Return Nothing
+    Public Function Construct(ByVal DesignName As String) As BodyPart
+        If ComponentTypesEmpty.Count > 0 Then Return Nothing
 
         Dim bp As New BodyPart
-        bp.name = DesignName
+        bp.Name = DesignName
         For Each c In Components
             bp.Merge(c)
         Next
         bp.Merge(BlueprintModifier)         'remember to add BlueprintModifier!
         bp.FinalMerge()                     'call FinalMerge() to finish up loose ends from merging
+        bp.Slot = Slot
         Return bp
     End Function
 
     Public Sub AddComponent(ByVal c As Component)
-        If SlotsEmpty.Contains(c.Slot) = False Then Exit Sub
+        If ComponentTypesEmpty.Contains(c.Slot) = False Then Exit Sub
 
         Components.Add(c)
-        SlotsEmpty.Remove(c.Slot)
-        SlotsFilled.Add(c.Slot)
+        ComponentTypesEmpty.Remove(c.Slot)
+        ComponentTypesFilled.Add(c.Slot)
     End Sub
     Public Sub RemoveComponent(ByVal c As Component)
-        If SlotsFilled.Contains(c.Slot) = False OrElse Components.Contains(c) = False Then Exit Sub
+        If ComponentTypesFilled.Contains(c.Slot) = False OrElse Components.Contains(c) = False Then Exit Sub
 
         Components.Remove(c)
-        SlotsFilled.Remove(c.Slot)
-        SlotsEmpty.Add(c.Slot)
+        ComponentTypesFilled.Remove(c.Slot)
+        ComponentTypesEmpty.Add(c.Slot)
     End Sub
 End Class

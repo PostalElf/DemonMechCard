@@ -1,0 +1,3 @@
+[Testmech]
+Slot: Gun
+Accuracy: 5

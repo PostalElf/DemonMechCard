@@ -1,4 +1,4 @@
-[Test 01]
+[Testgem]
 Speed: 1
 Defences: Kinetic
 AttackRange: Near
@@ -6,7 +6,7 @@ AmmoMax: 2
 Accuracy: -10
 Damage: 2 - 4 Fire, 1 - 2 Kinetic
 
-[Test 02]
+[Testhandle]
 Speed: -1
 Defences: Kinetic, Fire
 AttackRange: Average
