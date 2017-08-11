@@ -1,0 +1,11 @@
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\bin\Debug\DemonMechCard.exe
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\bin\Debug\DemonMechCard.pdb
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\bin\Debug\DemonMechCard.xml
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\obj\x86\Debug\DemonMechCard.Resources.resources
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\obj\x86\Debug\DemonMechCard.vbproj.GenerateResource.Cache
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\obj\x86\Debug\DemonMechCard.exe
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\obj\x86\Debug\DemonMechCard.xml
+C:\Users\Owner\AppData\Local\Temporary Projects\DemonMechCard\obj\x86\Debug\DemonMechCard.pdb
+C:\Users\Owner\documents\visual studio 2010\Projects\DemonMechCard\DemonMechCard\obj\x86\Debug\DemonMechCard.exe
+C:\Users\Owner\documents\visual studio 2010\Projects\DemonMechCard\DemonMechCard\obj\x86\Debug\DemonMechCard.xml
+C:\Users\Owner\documents\visual studio 2010\Projects\DemonMechCard\DemonMechCard\obj\x86\Debug\DemonMechCard.pdb
