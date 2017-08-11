@@ -1,8 +1,9 @@
 ﻿Public Class Component
-    Protected Name As String
+    Public Slot As String
     Protected Speed As Integer
     Protected Defences As New List(Of DamageType)
     Protected AttackRanges As New List(Of AttackRange)
+    Protected AttackRangesRemove As New List(Of AttackRange)
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
     Protected Dodge As Integer
@@ -14,7 +15,7 @@
 
         Dim component As New Component
         With component
-            .Name = raw.Dequeue
+            .Slot = raw.Dequeue
 
             While raw.Count > 0
                 Dim ln As String() = raw.Dequeue.Split(":")
@@ -25,22 +26,25 @@
         End With
         Return component
     End Function
-    Private Sub Build(ByVal key As String, ByVal value As String)
-        Select Case key
-            Case "Speed" : Speed = CInt(value)
-            Case "Defences"
+    Public Sub Build(ByVal key As String, ByVal value As String)
+        Select Case key.ToLower
+            Case "Speed".ToLower : Speed = CInt(value)
+            Case "Defences".ToLower
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
                     Dim entry As DamageType = String2Enum(Of DamageType)(v)
                     If entry <> Nothing Then Defences.Add(entry)
                 Next
-            Case "AttackRange"
+            Case "AttackRange".ToLower
                 Dim range As AttackRange = String2Enum(Of AttackRange)(value)
                 If AttackRanges.Contains(range) = False Then AttackRanges.Add(range)
-            Case "AmmoMax" : AmmoMax = CInt(value)
-            Case "Accuracy" : Accuracy = CInt(value)
-            Case "Dodge" : Dodge = CInt(value)
-            Case "Damage"
+            Case "AttackRangeRemove".ToLower
+                Dim range As AttackRange = String2Enum(Of AttackRange)(value)
+                If AttackRangesRemove.Contains(range) = False Then AttackRangesRemove.Add(range)
+            Case "AmmoMax".ToLower : AmmoMax = CInt(value)
+            Case "Accuracy".ToLower : Accuracy = CInt(value)
+            Case "Dodge".ToLower : Dodge = CInt(value)
+            Case "Damage".ToLower
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
                     Dim entry As Damage? = Damage.Construct(v)
@@ -56,9 +60,17 @@
         For Each ar In c.AttackRanges
             If AttackRanges.Contains(ar) = False Then AttackRanges.Add(ar)
         Next
+        For Each ar In c.AttackRangesRemove
+            If AttackRangesRemove.Contains(ar) = False Then AttackRangesRemove.Add(ar)
+        Next
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
         Dodge += c.Dodge
         Damages += c.Damages
+    End Sub
+    Public Sub FinalMerge()
+        For Each ar In AttackRangesRemove
+            If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
+        Next
     End Sub
 End Class

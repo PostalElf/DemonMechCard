@@ -1,0 +1,5 @@
+[Test Blueprint 01]
+Slot: Test 01
+Slot: Test 02
+Accuracy: -5
+AttackRangeRemove: Far
