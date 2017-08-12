@@ -1,3 +1,4 @@
 [Testmech]
-Slot: Gun
+Slot: Arm
 Accuracy: 5
+InventorySpace: 2

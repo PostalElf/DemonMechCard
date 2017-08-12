@@ -30,9 +30,41 @@
             If TypeOf c Is BodyPart = False Then Throw New Exception("Non-Bodypart found in mechdesign component list.") : Return Nothing
             bodyparts.Add(CType(c, BodyPart))
         Next
-        Return Mech.Build(bodyparts, BlueprintModifier)
+        Return Mech.Build(bodyparts, Inventory, BlueprintModifier)
     End Function
     Public Overrides Function ToString() As String
         Return BlueprintName
     End Function
+
+    Private ReadOnly Property InventorySpace As Integer
+        Get
+            Dim total As Integer = 0
+            For Each c In Components
+                total += c.InventorySpace
+            Next
+            total += BlueprintModifier.InventorySpace
+            Return total
+        End Get
+    End Property
+    Private ReadOnly Property InventorySpaceFree As Integer
+        Get
+            Dim usedInventory As Integer = 0
+            For Each w In Inventory
+                usedInventory += w.HandCost
+            Next
+
+            Return InventorySpace - usedInventory
+        End Get
+    End Property
+    Private Inventory As New List(Of BodyPart)
+    Public Overloads Sub AddComponent(ByVal c As Component)
+        If c.Slot = "Handweapon" Then
+            'is handweapon, check inventory space and add to inventory
+            If InventorySpaceFree < c.HandCost Then Exit Sub
+            Inventory.Add(c)
+        Else
+            'is normal bodypart
+            MyBase.AddComponent(c)
+        End If
+    End Sub
 End Class

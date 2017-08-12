@@ -45,13 +45,11 @@
     End Function
 
     Private BlueprintModifier As Component
-    Public Shared Function Build(ByVal _bodyparts As List(Of BodyPart), ByVal _blueprintModifier As Component)
+    Public Shared Function Build(ByVal _bodyparts As List(Of BodyPart), ByVal _inventory As List(Of BodyPart), ByVal _blueprintModifier As Component)
         Dim mech As New Mech
         With mech
-            'add hand weapons to inventory and everything else to bodyparts
-            For Each bp In _bodyparts
-                If bp.HandCost > 0 Then .WeaponsInventory.Add(bp) Else .BodyParts.Add(bp)
-            Next
+            .BodyParts.AddRange(_bodyparts)
+            .WeaponsInventory.AddRange(_inventory)
 
             'add blueprint modifier
             .BlueprintModifier = _blueprintModifier

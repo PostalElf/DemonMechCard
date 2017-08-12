@@ -30,6 +30,12 @@
             Return _ExtraHands
         End Get
     End Property
+    Protected _InventorySpace As Integer
+    Public ReadOnly Property InventorySpace As Integer
+        Get
+            Return _InventorySpace
+        End Get
+    End Property
 
     Public Shared Function Load(ByVal componentName As String) As Component
         Dim raw As Queue(Of String) = SquareBracketLoader("data/components.txt", componentName)
@@ -55,42 +61,43 @@
         Return component
     End Function
     Public Sub Build(ByVal key As String, ByVal value As String)
-        Select Case key.ToLower
-            Case "Speed".ToLower : Speed = CInt(value)
-            Case "HealthMax".ToLower : _HealthMax = CInt(value)
-            Case "Dodge".ToLower : Dodge = CInt(value)
-            Case "Defences".ToLower
+        Select Case key
+            Case "Speed" : Speed = CInt(value)
+            Case "HealthMax" : _HealthMax = CInt(value)
+            Case "Dodge" : Dodge = CInt(value)
+            Case "Defences"
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
                     Dim entry As DamageType = String2Enum(Of DamageType)(v)
                     If entry <> Nothing Then Defences.Add(entry)
                 Next
 
-            Case "WeaponType".ToLower : WeaponType = String2Enum(Of WeaponType)(value)
-            Case "HandCost".ToLower : _HandCost = CInt(value)
-            Case "IsQuick".ToLower : IsQuick = True
-            Case "AttackRange".ToLower
+            Case "WeaponType" : WeaponType = String2Enum(Of WeaponType)(value)
+            Case "HandCost" : _HandCost = CInt(value)
+            Case "IsQuick" : IsQuick = True
+            Case "AttackRange"
                 Dim ranges As List(Of String) = UnformatCommaList(value)
                 For Each range In ranges
                     Dim e As AttackRange = String2Enum(Of AttackRange)(range)
                     If AttackRanges.Contains(e) = False Then AttackRanges.Add(e)
                 Next
-            Case "AttackRangeRemove".ToLower
+            Case "AttackRangeRemove"
                 Dim ranges As List(Of String) = UnformatCommaList(value)
                 For Each range In ranges
                     Dim e As AttackRange = String2Enum(Of AttackRange)(range)
                     If AttackRangesRemove.Contains(e) = False Then AttackRangesRemove.Add(e)
                 Next
-            Case "AmmoMax".ToLower : AmmoMax = CInt(value)
-            Case "Accuracy".ToLower : Accuracy = CInt(value)
-            Case "Damage".ToLower
+            Case "AmmoMax" : AmmoMax = CInt(value)
+            Case "Accuracy" : Accuracy = CInt(value)
+            Case "Damage"
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
                     Dim entry As Damage? = Damage.Construct(v)
                     If entry Is Nothing = False Then Damages.Add(entry)
                 Next
 
-            Case "ExtraHands".ToLower : _ExtraHands += CInt(value)
+            Case "ExtraHands" : _ExtraHands += CInt(value)
+            Case "InventorySpace" : _InventorySpace += CInt(value)
         End Select
     End Sub
     Public Sub Merge(ByVal c As Component)
@@ -114,6 +121,7 @@
         Damages += c.Damages
 
         _ExtraHands += c._ExtraHands
+        _InventorySpace += c._InventorySpace
     End Sub
     Public Sub FinalMerge()
         If WeaponType = Nothing Then WeaponType = WeaponType.Conventional
