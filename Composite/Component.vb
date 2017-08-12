@@ -23,6 +23,7 @@
     Protected AttackRangesRemove As New List(Of AttackRange)
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
+    Protected ChargeMax As Integer                      'how many actions must be spent to charge the weapon
     Protected Damages As New Damages
 
     Protected _ExtraHands As Integer
