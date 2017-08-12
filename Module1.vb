@@ -10,7 +10,7 @@
 
         Dim mechdesign As MechDesign = mechdesign.Load("Testmech")
         mechdesign.AddComponent(bodypart)
-        mechdesign.Construct()
+        Dim mech As Mech = mechdesign.Construct()
     End Sub
 
 End Module
