@@ -1,4 +1,5 @@
 ﻿Public Class Mech
+    Inherits Combatant
     Private ReadOnly Property TotalHands As Integer
         Get
             Dim total As Integer = 0
@@ -43,34 +44,7 @@
         Return Nothing
     End Function
 
-    Private BodyParts As New List(Of BodyPart)
     Private BlueprintModifier As Component
-    Private ReadOnly Property TotalHealth As Integer
-        Get
-            Dim total As Integer = 0
-            For Each bp In BodyParts
-                total += bp.Health
-            Next
-            Return total
-        End Get
-    End Property
-    Private ReadOnly Property TotalHealthMax As Integer
-        Get
-            Dim total As Integer = 0
-            For Each bp In BodyParts
-                total += bp.healthmax
-            Next
-            total += BlueprintModifier.healthmax
-            Return total
-        End Get
-    End Property
-    Private ReadOnly Property HealthPercentage As Integer
-        Get
-            Dim total As Double = TotalHealth / TotalHealthMax * 100
-            Return Math.Ceiling(total)
-        End Get
-    End Property
-
     Public Shared Function Build(ByVal _bodyparts As List(Of BodyPart), ByVal _blueprintModifier As Component)
         Dim mech As New Mech
         With mech
@@ -79,6 +53,7 @@
                 If bp.HandCost > 0 Then .WeaponsInventory.Add(bp) Else .BodyParts.Add(bp)
             Next
 
+            'add blueprint modifier
             .BlueprintModifier = _blueprintModifier
         End With
         Return mech
