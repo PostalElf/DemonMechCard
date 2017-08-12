@@ -23,7 +23,6 @@
     Protected AttackRangesRemove As New List(Of AttackRange)
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
-    Protected ChargeMax As Integer                      'how many actions must be spent to charge the weapon
     Protected Damages As New Damages
 
     Protected _ExtraHands As Integer
@@ -92,7 +91,6 @@
                 Next
             Case "AmmoMax" : AmmoMax = CInt(value)
             Case "Accuracy" : Accuracy = CInt(value)
-            Case "ChargeMax" : ChargeMax = CInt(value)
             Case "Damage"
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
@@ -122,7 +120,6 @@
         Next
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
-        ChargeMax += c.ChargeMax
         Damages += c.Damages
 
         _ExtraHands += c._ExtraHands
