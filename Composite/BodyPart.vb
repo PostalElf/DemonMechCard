@@ -3,6 +3,7 @@
     Public Name As String
     Public Health As Integer
     Public Ammo As Integer
+    Public Charge As Integer
     Public ReadOnly Property IsReady As Boolean
         Get
             If Ammo > 0 AndAlso Health > 0 Then Return True Else Return False

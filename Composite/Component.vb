@@ -92,6 +92,7 @@
                 Next
             Case "AmmoMax" : AmmoMax = CInt(value)
             Case "Accuracy" : Accuracy = CInt(value)
+            Case "ChargeMax" : ChargeMax = CInt(value)
             Case "Damage"
                 Dim total As List(Of String) = UnformatCommaList(value)
                 For Each v In total
@@ -121,6 +122,7 @@
         Next
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
+        ChargeMax += c.ChargeMax
         Damages += c.Damages
 
         _ExtraHands += c._ExtraHands
