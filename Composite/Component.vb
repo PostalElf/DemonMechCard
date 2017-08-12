@@ -31,7 +31,6 @@
         End Get
     End Property
 
-
     Public Shared Function Load(ByVal componentName As String) As Component
         Dim raw As Queue(Of String) = SquareBracketLoader("data/components.txt", componentName)
         If raw Is Nothing Then Throw New Exception("Invalid ComponentName") : Return Nothing
@@ -122,4 +121,7 @@
             If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
         Next
     End Sub
+    Public Overrides Function ToString() As String
+        Return Slot
+    End Function
 End Class

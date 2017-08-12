@@ -32,4 +32,7 @@
         Next
         Return Mech.Build(bodyparts, BlueprintModifier)
     End Function
+    Public Overrides Function ToString() As String
+        Return BlueprintName
+    End Function
 End Class

@@ -42,6 +42,9 @@
         bp.Slot = Slot
         Return bp
     End Function
+    Public Overrides Function ToString() As String
+        Return BlueprintName
+    End Function
 
     Public Sub AddComponent(ByVal c As Component)
         If ComponentTypesEmpty.Contains(c.Slot) = False Then Exit Sub
