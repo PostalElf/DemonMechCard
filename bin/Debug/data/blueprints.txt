@@ -1,13 +1,13 @@
 [Testgun]
 Slot: Handweapon
 HandCost: 1
-ComponentType: Testgem
-ComponentType: Testhandle
+ComponentType: Gem
+ComponentType: Handle
 Accuracy: -5
 AttackRangeRemove: Average
 
 [Testlimb]
 Slot: Arm
 ExtraHands: 1
-ComponentType: Testhandle
-ComponentType: Testgem
+ComponentType: Gem
+ComponentType: Handle

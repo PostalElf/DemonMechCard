@@ -1,5 +1,6 @@
 ﻿Public Class Component
     Public Slot As String
+    Private Name As String
     Protected Speed As Integer
     Protected _HealthMax As Integer
     Public ReadOnly Property HealthMax As Integer
@@ -43,7 +44,7 @@
 
         Dim component As New Component
         With component
-            .Slot = raw.Dequeue
+            .Name = raw.Dequeue
 
             While raw.Count > 0
                 Dim ln As String() = raw.Dequeue.Split(":")
@@ -62,6 +63,7 @@
     End Function
     Public Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
+            Case "Slot" : Slot = value
             Case "Speed" : Speed = CInt(value)
             Case "HealthMax" : _HealthMax = CInt(value)
             Case "Dodge" : Dodge = CInt(value)

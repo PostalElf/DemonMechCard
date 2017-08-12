@@ -1,4 +1,5 @@
 [Testgem]
+Slot: Gem
 Speed: 1
 Defences: Kinetic
 AttackRange: Near
@@ -7,6 +8,7 @@ Accuracy: -10
 Damage: 2 - 4 Fire, 1 - 2 Kinetic
 
 [Testhandle]
+Slot: Handle
 Speed: -1
 Defences: Kinetic, Fire
 AttackRange: Average
