@@ -52,7 +52,7 @@
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
     Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
-        'set attackLimb
+        'set attackLimb and damage
         If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return Nothing
         Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
         If attackLimb.CheckAttackRange(GetDistance(target)) = False Then Return Nothing
@@ -77,7 +77,7 @@
         End Select
 
         'apply the modifier and update report
-        dmg *= modifier
+        dmg = Math.Ceiling(dmg * modifier)
         total &= dmg & " " & damage.DamageType.ToString
         If modString <> "" Then total &= " [" & modString.Trim & "]"
 
@@ -90,7 +90,7 @@
         Return total
     End Function
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
-        Dim total As String = targetLimb.Name & " is destroyed!"
+        Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
 
         'remove limb from bodyparts
         targetLimb.Owner = Nothing
