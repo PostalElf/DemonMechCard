@@ -1,5 +1,6 @@
 ﻿Public Enum AttackRange
-    Close
+    Close = 0
     Average
     Far
+    Out
 End Enum

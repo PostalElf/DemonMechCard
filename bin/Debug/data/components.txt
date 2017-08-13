@@ -46,6 +46,7 @@ ExtraHands: 1
 [Powerfist]
 Slot: Hand
 ExtraHands: 1
+WeaponType: Conventional
 DamageMin: 2
 DamageSpread: 2
 DamageType: Kinetic

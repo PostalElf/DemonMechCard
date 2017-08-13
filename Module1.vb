@@ -20,9 +20,9 @@
         Dim armR As BodyPart
         With Blueprint.Load("Standard Arm")
             .AddComponent(Component.Load("Nanocarbon Steel"))
-            .AddComponent(Component.Load("Articulated Hand"))
+            .AddComponent(Component.Load("Powerfist"))
             .AddComponent(Component.Load("Micromotor"))
-            armR = .Construct("Right Arm", DamageType.Kinetic)
+            armR = .Construct("Right Fist Arm", DamageType.Kinetic)
         End With
 
         Dim chassis As BodyPart
@@ -41,6 +41,8 @@
         Dim mech As Mech = mechdesign.Construct("Testsloth")
         mech.FullReady()
 
+        Console.WriteLine(mech.IsAttacked(mech.Attacks(0).Damage, 0))
+        Console.ReadKey()
     End Sub
 
 End Module

@@ -31,8 +31,6 @@
     Protected DamageMin As Integer
     Protected DamageSpread As Integer
     Protected DamageTypes As New List(Of DamageType)
-    Protected DamageModifier As Integer
-    Protected Damage As Damage
 
     Protected _Speed As Integer
     Public ReadOnly Property Speed As Integer
@@ -108,7 +106,6 @@
             Case "Accuracy" : Accuracy = CInt(value)
             Case "DamageMin" : DamageMin = CInt(value)
             Case "DamageSpread" : DamageSpread = CInt(value)
-            Case "DamageModifier" : DamageModifier = CInt(value)
             Case "DamageType" : Dim dt As DamageType = String2Enum(Of DamageType)(value) : If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
 
             Case "Speed" : _Speed = CInt(value)
@@ -136,7 +133,6 @@
         Accuracy += c.Accuracy
         DamageMin += c.DamageMin
         DamageSpread += c.DamageSpread
-        DamageModifier += c.DamageModifier
         For Each dt In c.DamageTypes
             If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
         Next
@@ -144,14 +140,6 @@
         _Speed += c._Speed
         _ExtraHands += c._ExtraHands
         _InventorySpace += c._InventorySpace
-    End Sub
-    Public Sub FinalMerge(ByVal finalDamageType As DamageType)
-        If WeaponType = Nothing Then WeaponType = WeaponType.Conventional
-        For Each ar In AttackRangesRemove
-            If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
-        Next
-        If DamageTypes.Contains(finalDamageType) = False Then finalDamageType = DamageType.Kinetic
-        Damage = New Damage(DamageMin, DamageSpread, finalDamageType)
     End Sub
     Public Overrides Function ToString() As String
         Return Slot

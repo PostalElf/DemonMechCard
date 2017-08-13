@@ -43,6 +43,15 @@
         WeaponsInventory.Add(tbp)
         Return Nothing
     End Function
+    Public Overrides ReadOnly Property Attacks As List(Of BodyPart)
+        Get
+            Dim total As New List(Of BodyPart)
+            For Each bp In BodyParts.Concat(WeaponsEquipped)
+                If bp.IsReady = True Then total.Add(bp)
+            Next
+            Return total
+        End Get
+    End Property
 
     Public Shared Function Build(ByVal _name As String, ByVal _bodyparts As List(Of BodyPart), ByVal _inventory As List(Of BodyPart), ByVal _blueprintModifier As Component)
         Dim mech As New Mech
@@ -50,6 +59,8 @@
             .Name = _name
             .BodyParts.AddRange(_bodyparts)
             .WeaponsInventory.AddRange(_inventory)
+            For Each bp In .BodyParts : bp.Owner = mech : Next
+            For Each bp In .WeaponsInventory : bp.Owner = mech : Next
 
             'add blueprint modifier
             .BaseModifier = _blueprintModifier

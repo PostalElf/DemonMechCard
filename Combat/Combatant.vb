@@ -38,6 +38,26 @@
         End Get
     End Property
 
+    Private DistanceFromMiddle As AttackRange
+    Private Function GetDistance(ByVal target As Combatant) As AttackRange
+        Dim total As Integer = DistanceFromMiddle
+        total += target.DistanceFromMiddle
+
+        Select Case total
+            Case 0 : Return AttackRange.Close
+            Case 1 : Return AttackRange.Average
+            Case 2 : Return AttackRange.Far
+            Case Else : Return AttackRange.Out
+        End Select
+    End Function
+    Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
+    Public Function IsAttacked(ByVal damage As Damage, ByVal targetLimbIndex As Integer) As String
+        If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return Nothing
+        Dim targetLimb As BodyPart = BodyParts(targetLimbIndex)
+
+        Return targetLimb.IsAttacked(damage)
+    End Function
+
     Public Sub FullReady()
         For Each bp In BodyParts
             bp.FullReady()
