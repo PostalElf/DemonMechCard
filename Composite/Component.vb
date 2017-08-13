@@ -90,13 +90,13 @@
             Case "WeaponType" : WeaponType = String2Enum(Of WeaponType)(value)
             Case "HandCost" : _HandCost = CInt(value)
             Case "IsQuick" : IsQuick = True
-            Case "AttackRange"
+            Case "AttackRange", "AttackRanges"
                 Dim ranges As List(Of String) = UnformatCommaList(value)
                 For Each range In ranges
                     Dim e As AttackRange = String2Enum(Of AttackRange)(range)
                     If AttackRanges.Contains(e) = False Then AttackRanges.Add(e)
                 Next
-            Case "AttackRangeRemove"
+            Case "AttackRangeRemove", "AttackRangesRemove"
                 Dim ranges As List(Of String) = UnformatCommaList(value)
                 For Each range In ranges
                     Dim e As AttackRange = String2Enum(Of AttackRange)(range)

@@ -15,27 +15,22 @@
             If Ammo > 0 AndAlso Health > 0 Then Return True Else Return False
         End Get
     End Property
-    Public Function IsAttacked(ByVal attackDamage As Damage) As String
-        Dim total As String = " hits " & Owner.Name & "'s " & Name & " for "
-        Dim dmg As Integer = attackDamage.Roll
-
-        Dim modifier As Double = 1
-        Dim modString As String = ""
-        If Defences.Contains(attackDamage.DamageType) Then modifier -= 0.5 : modString &= "DEF "
-
-        Dim roll As Integer = Rng.Next(0, 101)
-        If attackDamage.Accuracy > Dodge Then
-            'critical chance
-            If roll < attackDamage.Accuracy - Dodge Then modifier *= 2 : modString &= "CRIT "
-        ElseIf Dodge > attackDamage.Accuracy Then
-            'dodge chance
-            If roll < Dodge - attackDamage.Accuracy Then modifier -= 0.5 : modString &= "DDG "
+    Public Function CheckAttackRange(ByVal attackRange As AttackRange) As Boolean
+        Return AttackRanges.Contains(attackRange)
+    End Function
+    Public Function CheckDefences(ByVal damageType As DamageType) As Boolean
+        Return Defences.Contains(damageType)
+    End Function
+    Public Function CheckCritDodge(ByVal accuracy As Integer) As String
+        Dim roll As Integer = Rng.Next(1, 101)
+        If accuracy > Dodge Then
+            'crit
+            If roll < accuracy - Dodge Then Return "CRIT"
+        ElseIf Dodge > accuracy Then
+            'dodge
+            If roll < Dodge - accuracy Then Return "DDG"
         End If
-
-        dmg *= modifier
-        total &= dmg & " " & attackDamage.DamageType.ToString
-        If modString <> "" Then total &= " [" & modString.Trim & "]"
-        Return total
+        Return Nothing
     End Function
 
     Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)

@@ -52,21 +52,57 @@
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
     Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
+        'set attackLimb
         If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return Nothing
         Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
-        attackLimb.Ammo -= 1
+        If attackLimb.CheckAttackRange(GetDistance(target)) = False Then Return Nothing
+        If attackLimb.IsReady = False Then Return Nothing
+        Dim damage As Damage = attackLimb.Damage
 
-        Dim report As String = Name
-        report &= target.BodyParts(targetLimbIndex).IsAttacked(attackLimb.Damage)
-        Return report
-    End Function
-    Public Function IsAttacked(ByVal damage As Damage, ByVal targetLimbIndex As Integer) As String
+        'set targetLimb
         If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return Nothing
-        Dim targetLimb As BodyPart = BodyParts(targetLimbIndex)
+        Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
 
-        Return targetLimb.IsAttacked(damage)
+        'initialise report
+        Dim total As String = Name & " hits " & target.Name & "'s " & targetlimb.name & " for "
+
+        'roll for damage and check for modifiers
+        Dim dmg As Integer = damage.Roll
+        Dim modifier As Double = 1
+        Dim modString As String = ""
+        If targetLimb.CheckDefences(damage.DamageType) = True Then modifier -= 0.5 : modString &= "DEF "
+        Select Case targetLimb.CheckCritDodge(damage.Accuracy)
+            Case "CRIT" : modifier *= 2 : modString &= "CRIT "
+            Case "DDG" : modifier -= 0.5 : modString &= "DDG "
+        End Select
+
+        'apply the modifier and update report
+        dmg *= modifier
+        total &= dmg & " " & damage.DamageType.ToString
+        If modString <> "" Then total &= " [" & modString.Trim & "]"
+
+        'actually do the attack
+        attackLimb.Ammo -= 1
+        targetLimb.Health -= dmg
+        If targetLimb.Health <= 0 Then total &= vbCrLf & DestroyLimb(targetLimb)
+
+        'return report
+        Return total
     End Function
+    Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
+        Dim total As String = targetLimb.Name & " is destroyed!"
 
+        'remove limb from bodyparts
+        targetLimb.Owner = Nothing
+        BodyParts.Remove(targetLimb)
+
+        'check if critical
+        If targetLimb.IsCritical = True Then
+            If TotalHealth <= 0 Then total &= vbCrLf & Name & " has been annihilated!"
+        End If
+
+        Return total
+    End Function
     Public Sub FullReady()
         For Each bp In BodyParts
             bp.FullReady()
