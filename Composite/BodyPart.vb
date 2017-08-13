@@ -8,14 +8,14 @@
         End Get
     End Property
 
+    Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
+        MyBase.FinalMerge(finalDamageType)
+    End Sub
     Public Overrides Function ToString() As String
         Return Name
     End Function
 
-    Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
-        MyBase.FinalMerge(finalDamageType)
-    End Sub
-    Public Sub CombatStart()
+    Public Sub FullReady()
         Health = _HealthMax
         Ammo = AmmoMax
     End Sub

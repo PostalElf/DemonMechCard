@@ -56,4 +56,13 @@
         End With
         Return mech
     End Function
+    Public Overloads Sub FullReady()
+        MyBase.FullReady()
+        For Each weapon In WeaponsInventory
+            weapon.FullReady()
+        Next
+        For Each weapon In WeaponsEquipped
+            weapon.FullReady()
+        Next
+    End Sub
 End Class

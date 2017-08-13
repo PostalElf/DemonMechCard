@@ -21,21 +21,30 @@
             Return total
         End Get
     End Property
-    Private ReadOnly Property HealthPercentage As Integer
+    Public ReadOnly Property HealthPercentage As Integer
         Get
             Dim total As Double = TotalHealth / TotalHealthMax * 100
             Return Math.Ceiling(total)
         End Get
     End Property
-
     Public ReadOnly Property TotalSpeed As Integer
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
-                total += bp.speed
+                total += bp.Speed
             Next
-            total += BaseModifier.speed
+            total += BaseModifier.Speed
             Return total
         End Get
     End Property
+
+    Public Sub FullReady()
+        For Each bp In BodyParts
+            bp.FullReady()
+        Next
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return Name
+    End Function
 End Class

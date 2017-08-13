@@ -23,10 +23,10 @@
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
     Protected DamageMin As Integer
-    Protected DamageMax As Integer
-    Protected DamageType As Integer
-    Protected DamageTypes As List(Of DamageType)
+    Protected DamageSpread As Integer
+    Protected DamageTypes As New List(Of DamageType)
     Protected DamageModifier As Integer
+    Protected Damage As Damage
 
     Protected _Speed As Integer
     Public ReadOnly Property Speed As Integer
@@ -73,7 +73,7 @@
     Public Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "Slot" : Slot = value
-            Case "HealthMax" : _HealthMax = CInt(value)
+            Case "HealthMax", "Health" : _HealthMax = CInt(value)
             Case "Dodge" : Dodge = CInt(value)
             Case "Defences"
                 Dim total As List(Of String) = UnformatCommaList(value)
@@ -100,7 +100,7 @@
             Case "AmmoMax" : AmmoMax = CInt(value)
             Case "Accuracy" : Accuracy = CInt(value)
             Case "DamageMin" : DamageMin = CInt(value)
-            Case "DamageMax" : DamageMax = CInt(value)
+            Case "DamageSpread" : DamageSpread = CInt(value)
             Case "DamageModifier" : DamageModifier = CInt(value)
             Case "DamageType" : Dim dt As DamageType = String2Enum(Of DamageType)(value) : If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
 
@@ -127,7 +127,7 @@
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
         DamageMin += c.DamageMin
-        DamageMax += c.DamageMax
+        DamageSpread += c.DamageSpread
         DamageModifier += c.DamageModifier
         For Each dt In c.DamageTypes
             If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
@@ -142,7 +142,8 @@
         For Each ar In AttackRangesRemove
             If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
         Next
-        If DamageTypes.Contains(finalDamageType) Then DamageType = finalDamageType Else DamageType = DamageTypes(Rng.Next(DamageTypes.Count))
+        If DamageTypes.Contains(finalDamageType) = False Then finalDamageType = DamageType.Kinetic
+        Damage = New Damage(DamageMin, DamageSpread, finalDamageType)
     End Sub
     Public Overrides Function ToString() As String
         Return Slot

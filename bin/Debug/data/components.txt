@@ -1,7 +1,7 @@
 [Smoothbore Barrel]
 Slot: Gun Barrel
 Accuracy: -5
-DamageModifier: 1
+DamageMin: 2
 
 [Rifled Barrel]
 Slot: Gun Barrel
@@ -17,6 +17,42 @@ Slot: Gun Magazine
 Accuracy: +5
 AmmoMax: 6
 
-[Toxic Shot]
+[Silver Bullets]
+Slot: Gun Ammo
+DamageMin: 5
+DamageSpread: 5
+DamageType: Kinetic
+
+[Albedo Rounds]
 Slot: Gun Ammo
 Accuracy: -5
+DamageMin: 10
+DamageSpread: 5
+DamageType: Alchemical
+
+[Nanocarbon Steel]
+Slot: Material
+Health: 10
+
+[Silvered Steel]
+Slot: Material
+Health: 10
+Dodge: 5
+
+[Articulated Hand]
+Slot: Hand
+ExtraHands: 1
+
+[Powerfist]
+Slot: Hand
+ExtraHands: 1
+DamageMin: 2
+DamageSpread: 2
+DamageType: Kinetic
+AmmoMax: 10
+AttackRanges: Near
+AttackRangesRemove: Average, Far
+
+[Micromotor]
+Slot: Motor
+DamageSpread: -1
