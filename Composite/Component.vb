@@ -1,6 +1,12 @@
 ﻿Public Class Component
     Public Slot As String
     Public Name As String
+    Protected _IsCritical As Boolean
+    Public ReadOnly Property IsCritical As Boolean
+        Get
+            Return _IsCritical
+        End Get
+    End Property
     Protected _HealthMax As Integer
     Public ReadOnly Property HealthMax As Integer
         Get
@@ -73,6 +79,7 @@
     Public Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "Slot" : Slot = value
+            Case "IsCritical" : _IsCritical = True
             Case "HealthMax", "Health" : _HealthMax = CInt(value)
             Case "Dodge" : Dodge = CInt(value)
             Case "Defences"
@@ -110,6 +117,7 @@
         End Select
     End Sub
     Public Sub Merge(ByVal c As Component)
+        If c._IsCritical = True Then _IsCritical = True
         _HealthMax += c._HealthMax
         Dodge += c.Dodge
         For Each d In c.Defences

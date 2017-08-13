@@ -13,3 +13,13 @@ Slot: Arm
 ComponentType: Material
 ComponentType: Hand
 ComponentType: Motor
+
+[Standard Chassis]
+Slot: Chassis
+ComponentType: Material
+ComponentType: Neural Net
+ComponentType: Power Source
+
+[Pauldrons]
+Slot: Shoulder
+ComponentType: Material

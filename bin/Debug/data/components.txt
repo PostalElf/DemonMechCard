@@ -56,3 +56,14 @@ AttackRangesRemove: Average, Far
 [Micromotor]
 Slot: Motor
 DamageSpread: -1
+
+[Synthetic Network]
+Slot: Neural Net
+IsCritical: True
+Health: 20
+
+[Nuclear Reactor]
+Slot: Power Source
+IsCritical: True
+Health: 10
+Speed: 1

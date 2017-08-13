@@ -7,7 +7,7 @@
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
-                total += bp.Health
+                If bp.IsCritical = True Then total += bp.Health
             Next
             Return total
         End Get
@@ -16,7 +16,7 @@
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
-                total += bp.healthmax
+                If bp.IsCritical = True Then total += bp.HealthMax
             Next
             Return total
         End Get

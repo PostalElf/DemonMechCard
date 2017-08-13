@@ -1,4 +1,6 @@
 [Testmech]
+Slot: Chassis
+Slot: Arm
 Slot: Arm
 Accuracy: 5
 InventorySpace: 2
