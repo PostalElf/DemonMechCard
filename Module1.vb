@@ -33,15 +33,17 @@
             chassis = .Construct("Chassis", Nothing)
         End With
 
-        Dim mechdesign As MechDesign = mechdesign.Load("Testmech")
-        mechdesign.AddComponent(handcannon)
-        mechdesign.AddComponent(armL)
-        mechdesign.AddComponent(armR)
-        mechdesign.AddComponent(chassis)
-        Dim mech As Mech = mechdesign.Construct("Testsloth")
+        Dim mech As Mech
+        With MechDesign.Load("Testmech")
+            .AddComponent(handcannon)
+            .AddComponent(armL)
+            .AddComponent(armR)
+            .AddComponent(chassis)
+            mech = .Construct("Testsloth")
+        End With
         mech.FullReady()
 
-        Console.WriteLine(mech.IsAttacked(mech.Attacks(0).Damage, 0))
+        Console.WriteLine(mech.PerformsAttack(0, mech, 1))
         Console.ReadKey()
     End Sub
 

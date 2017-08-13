@@ -51,6 +51,15 @@
         End Select
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
+    Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
+        If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return Nothing
+        Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
+        attackLimb.Ammo -= 1
+
+        Dim report As String = Name
+        report &= target.BodyParts(targetLimbIndex).IsAttacked(attackLimb.Damage)
+        Return report
+    End Function
     Public Function IsAttacked(ByVal damage As Damage, ByVal targetLimbIndex As Integer) As String
         If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return Nothing
         Dim targetLimb As BodyPart = BodyParts(targetLimbIndex)

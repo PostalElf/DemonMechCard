@@ -15,6 +15,28 @@
             If Ammo > 0 AndAlso Health > 0 Then Return True Else Return False
         End Get
     End Property
+    Public Function IsAttacked(ByVal attackDamage As Damage) As String
+        Dim total As String = " hits " & Owner.Name & "'s " & Name & " for "
+        Dim dmg As Integer = attackDamage.Roll
+
+        Dim modifier As Double = 1
+        Dim modString As String = ""
+        If Defences.Contains(attackDamage.DamageType) Then modifier -= 0.5 : modString &= "DEF "
+
+        Dim roll As Integer = Rng.Next(0, 101)
+        If attackDamage.Accuracy > Dodge Then
+            'critical chance
+            If roll < attackDamage.Accuracy - Dodge Then modifier *= 2 : modString &= "CRIT "
+        ElseIf Dodge > attackDamage.Accuracy Then
+            'dodge chance
+            If roll < Dodge - attackDamage.Accuracy Then modifier -= 0.5 : modString &= "DDG "
+        End If
+
+        dmg *= modifier
+        total &= dmg & " " & attackDamage.DamageType.ToString
+        If modString <> "" Then total &= " [" & modString.Trim & "]"
+        Return total
+    End Function
 
     Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
         If IsWeapon = True Then
@@ -33,26 +55,4 @@
         Health = _HealthMax
         Ammo = AmmoMax
     End Sub
-    Public Function IsAttacked(ByVal damage As Damage) As String
-        Dim total As String = " hit " & Owner.Name & "'s " & Name & " for "
-        Dim dmg As Integer = damage.Roll
-
-        Dim modifier As Double = 1
-        Dim modString As String = ""
-        If Defences.Contains(damage.DamageType) Then modifier -= 0.5 : modString &= "DEF "
-
-        Dim roll As Integer = Rng.Next(0, 101)
-        If damage.Accuracy > Dodge Then
-            'critical chance
-            If roll < damage.Accuracy - Dodge Then modifier *= 2 : modString &= "CRIT "
-        ElseIf Dodge > damage.Accuracy Then
-            'dodge chance
-            If roll < Dodge - damage.Accuracy Then modifier -= 0.5 : modString &= "DDG "
-        End If
-
-        dmg *= modifier
-        total &= dmg & " " & damage.DamageType.ToString
-        If modString <> "" Then total &= " [" & modString.Trim & "]"
-        Return total
-    End Function
 End Class
