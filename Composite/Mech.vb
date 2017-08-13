@@ -6,7 +6,7 @@
             For Each bp In BodyParts
                 total += bp.ExtraHands
             Next
-            total += BlueprintModifier.ExtraHands
+            total += BaseModifier.ExtraHands
             Return total
         End Get
     End Property
@@ -44,15 +44,15 @@
         Return Nothing
     End Function
 
-    Private BlueprintModifier As Component
-    Public Shared Function Build(ByVal _bodyparts As List(Of BodyPart), ByVal _inventory As List(Of BodyPart), ByVal _blueprintModifier As Component)
+    Public Shared Function Build(ByVal _name As String, ByVal _bodyparts As List(Of BodyPart), ByVal _inventory As List(Of BodyPart), ByVal _blueprintModifier As Component)
         Dim mech As New Mech
         With mech
+            .Name = _name
             .BodyParts.AddRange(_bodyparts)
             .WeaponsInventory.AddRange(_inventory)
 
             'add blueprint modifier
-            .BlueprintModifier = _blueprintModifier
+            .BaseModifier = _blueprintModifier
         End With
         Return mech
     End Function

@@ -1,6 +1,5 @@
 ﻿Public Class BodyPart
     Inherits Component
-    Public Name As String
     Public Health As Integer
     Public Ammo As Integer
     Public ReadOnly Property IsReady As Boolean

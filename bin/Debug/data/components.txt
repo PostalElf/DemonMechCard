@@ -1,16 +1,20 @@
-[Testgem]
-Slot: Gem
-Speed: 1
-Defences: Kinetic
-AttackRange: Near
-AmmoMax: 2
-Accuracy: -10
-Damage: 2 - 4 Fire, 1 - 2 Kinetic
+[Smoothbore Barrel]
+Slot: Gun Barrel
+Accuracy: -5
+DamageModifier: 1
 
-[Testhandle]
-Slot: Handle
-Speed: -1
-Defences: Kinetic, Fire
-AttackRange: Average
-Damage: 1 - 1 Fire, -1 - -1 Kinetic
+[Rifled Barrel]
+Slot: Gun Barrel
+Accuracy: +5
 
+[Automatic Clip]
+Slot: Gun Magazine
+Accuracy: -5
+AmmoMax: 12
+
+[Revolver]
+Slot: Gun Magazine
+Accuracy: +5
+AmmoMax: 6
+
+[

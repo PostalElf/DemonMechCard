@@ -1,7 +1,6 @@
 ﻿Public Class Component
     Public Slot As String
-    Private Name As String
-    Protected Speed As Integer
+    Public Name As String
     Protected _HealthMax As Integer
     Public ReadOnly Property HealthMax As Integer
         Get
@@ -24,7 +23,14 @@
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
     Protected Damages As New Damages
+    Protected DamageModifier As Integer
 
+    Protected _Speed As Integer
+    Public ReadOnly Property Speed As Integer
+        Get
+            Return _Speed
+        End Get
+    End Property
     Protected _ExtraHands As Integer
     Public ReadOnly Property ExtraHands As Integer
         Get
@@ -64,7 +70,6 @@
     Public Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "Slot" : Slot = value
-            Case "Speed" : Speed = CInt(value)
             Case "HealthMax" : _HealthMax = CInt(value)
             Case "Dodge" : Dodge = CInt(value)
             Case "Defences"
@@ -97,13 +102,14 @@
                     Dim entry As Damage? = Damage.Construct(v)
                     If entry Is Nothing = False Then Damages.Add(entry)
                 Next
+            Case "DamageModifier" : DamageModifier = CInt(value)
 
+            Case "Speed" : _Speed = CInt(value)
             Case "ExtraHands" : _ExtraHands += CInt(value)
             Case "InventorySpace" : _InventorySpace += CInt(value)
         End Select
     End Sub
     Public Sub Merge(ByVal c As Component)
-        Speed += c.Speed
         _HealthMax += c._HealthMax
         Dodge += c.Dodge
         For Each d In c.Defences
@@ -121,7 +127,9 @@
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
         Damages += c.Damages
+        DamageModifier += c.DamageModifier
 
+        _Speed += c._Speed
         _ExtraHands += c._ExtraHands
         _InventorySpace += c._InventorySpace
     End Sub

@@ -1,13 +1,15 @@
-[Testgun]
+[Handcannon]
 Slot: Handweapon
 HandCost: 1
-ComponentType: Gem
-ComponentType: Handle
-Accuracy: -5
-AttackRangeRemove: Average
+ComponentType: Gun Barrel
+ComponentType: Gun Magazine
+ComponentType: Gun Ammo
+HandCost: 1
+AttackRangeRemove: Far
+IsQuick: True
 
-[Testlimb]
+[Standard Arm]
 Slot: Arm
-ExtraHands: 1
-ComponentType: Gem
-ComponentType: Handle
+ComponentType: Material
+ComponentType: Hand
+ComponentType: Motor

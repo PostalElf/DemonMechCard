@@ -22,7 +22,7 @@
             Case Else : BlueprintModifier.Build(key, value)
         End Select
     End Sub
-    Public Overloads Function Construct() As mech
+    Public Overloads Function Construct(ByVal mechName As String) As Mech
         If ComponentTypesEmpty.Count > 0 Then Return Nothing
 
         Dim bodyparts As New List(Of BodyPart)
@@ -30,7 +30,7 @@
             If TypeOf c Is BodyPart = False Then Throw New Exception("Non-Bodypart found in mechdesign component list.") : Return Nothing
             bodyparts.Add(CType(c, BodyPart))
         Next
-        Return Mech.Build(bodyparts, Inventory, BlueprintModifier)
+        Return Mech.Build(mechName, bodyparts, Inventory, BlueprintModifier)
     End Function
     Public Overrides Function ToString() As String
         Return BlueprintName
