@@ -29,7 +29,7 @@
             Case Else : BlueprintModifier.Build(key, value)
         End Select
     End Sub
-    Public Function Construct(ByVal DesignName As String) As BodyPart
+    Public Function Construct(ByVal DesignName As String, ByVal finalDamageType As DamageType) As BodyPart
         If ComponentTypesEmpty.Count > 0 Then Return Nothing
 
         Dim bp As New BodyPart
@@ -38,7 +38,7 @@
             bp.Merge(c)
         Next
         bp.Merge(BlueprintModifier)         'remember to add BlueprintModifier!
-        bp.FinalMerge()                     'call FinalMerge() to finish up loose ends from merging
+        bp.FinalMerge(finalDamageType)      'call FinalMerge() to finish up loose ends from merging
         bp.Slot = Slot
         Return bp
     End Function

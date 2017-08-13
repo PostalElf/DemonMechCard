@@ -12,8 +12,8 @@
         Return Name
     End Function
 
-    Public Overloads Sub FinalMerge()
-        MyBase.FinalMerge()
+    Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
+        MyBase.FinalMerge(finalDamageType)
     End Sub
     Public Sub CombatStart()
         Health = _HealthMax

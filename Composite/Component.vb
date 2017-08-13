@@ -22,7 +22,10 @@
     Protected AttackRangesRemove As New List(Of AttackRange)
     Protected AmmoMax As Integer
     Protected Accuracy As Integer
-    Protected Damages As New Damages
+    Protected DamageMin As Integer
+    Protected DamageMax As Integer
+    Protected DamageType As Integer
+    Protected DamageTypes As List(Of DamageType)
     Protected DamageModifier As Integer
 
     Protected _Speed As Integer
@@ -96,13 +99,10 @@
                 Next
             Case "AmmoMax" : AmmoMax = CInt(value)
             Case "Accuracy" : Accuracy = CInt(value)
-            Case "Damage"
-                Dim total As List(Of String) = UnformatCommaList(value)
-                For Each v In total
-                    Dim entry As Damage? = Damage.Construct(v)
-                    If entry Is Nothing = False Then Damages.Add(entry)
-                Next
+            Case "DamageMin" : DamageMin = CInt(value)
+            Case "DamageMax" : DamageMax = CInt(value)
             Case "DamageModifier" : DamageModifier = CInt(value)
+            Case "DamageType" : Dim dt As DamageType = String2Enum(Of DamageType)(value) : If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
 
             Case "Speed" : _Speed = CInt(value)
             Case "ExtraHands" : _ExtraHands += CInt(value)
@@ -126,18 +126,23 @@
         Next
         AmmoMax += c.AmmoMax
         Accuracy += c.Accuracy
-        Damages += c.Damages
+        DamageMin += c.DamageMin
+        DamageMax += c.DamageMax
         DamageModifier += c.DamageModifier
+        For Each dt In c.DamageTypes
+            If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
+        Next
 
         _Speed += c._Speed
         _ExtraHands += c._ExtraHands
         _InventorySpace += c._InventorySpace
     End Sub
-    Public Sub FinalMerge()
+    Public Sub FinalMerge(ByVal finalDamageType As DamageType)
         If WeaponType = Nothing Then WeaponType = WeaponType.Conventional
         For Each ar In AttackRangesRemove
             If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
         Next
+        If DamageTypes.Contains(finalDamageType) Then DamageType = finalDamageType Else DamageType = DamageTypes(Rng.Next(DamageTypes.Count))
     End Sub
     Public Overrides Function ToString() As String
         Return Slot

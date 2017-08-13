@@ -17,4 +17,6 @@ Slot: Gun Magazine
 Accuracy: +5
 AmmoMax: 6
 
-[
+[Toxic Shot]
+Slot: Gun Ammo
+Accuracy: -5
