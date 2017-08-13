@@ -1,32 +1,37 @@
 ﻿Module Module1
 
     Sub Main()
-        Dim barrel As Component = Component.Load("Rifled Barrel")
-        Dim magazine As Component = Component.Load("Automatic Clip")
-        Dim ammo As Component = Component.Load("Albedo Rounds")
-        Dim handcannonBP As Blueprint = Blueprint.Load("Handcannon")
-        handcannonBP.AddComponent(barrel)
-        handcannonBP.AddComponent(magazine)
-        handcannonBP.AddComponent(ammo)
-        Dim handcannon As BodyPart = handcannonBP.Construct("Alchemical Pistol", DamageType.Alchemical)
+        Dim handcannon As BodyPart
+        With Blueprint.Load("Handcannon")
+            .AddComponent(Component.Load("Rifled Barrel"))
+            .AddComponent(Component.Load("Automatic Clip"))
+            .AddComponent(Component.Load("Albedo Rounds"))
+            handcannon = .Construct("Alchemical Pistol", DamageType.Alchemical)
+        End With
 
-        Dim armLBP As Blueprint = Blueprint.Load("Standard Arm")
-        armLBP.AddComponent(Component.Load("Silvered Steel"))
-        armLBP.AddComponent(Component.Load("Articulated Hand"))
-        armLBP.AddComponent(Component.Load("Micromotor"))
-        Dim armL As BodyPart = armLBP.Construct("Left Arm", DamageType.Kinetic)
+        Dim armL As BodyPart
+        With Blueprint.Load("Standard Arm")
+            .AddComponent(Component.Load("Silvered Steel"))
+            .AddComponent(Component.Load("Articulated Hand"))
+            .AddComponent(Component.Load("Micromotor"))
+            armL = .Construct("Left Arm", DamageType.Kinetic)
+        End With
 
-        Dim armRBP As Blueprint = Blueprint.Load("Standard Arm")
-        armRBP.AddComponent(Component.Load("Nanocarbon Steel"))
-        armRBP.AddComponent(Component.Load("Articulated Hand"))
-        armRBP.AddComponent(Component.Load("Micromotor"))
-        Dim armR As BodyPart = armRBP.Construct("Right Arm", DamageType.Kinetic)
+        Dim armR As BodyPart
+        With Blueprint.Load("Standard Arm")
+            .AddComponent(Component.Load("Nanocarbon Steel"))
+            .AddComponent(Component.Load("Articulated Hand"))
+            .AddComponent(Component.Load("Micromotor"))
+            armR = .Construct("Right Arm", DamageType.Kinetic)
+        End With
 
-        Dim chassisBP As Blueprint = Blueprint.Load("Standard Chassis")
-        chassisBP.AddComponent(Component.Load("Silvered Steel"))
-        chassisBP.AddComponent(Component.Load("Synthetic Network"))
-        chassisBP.AddComponent(Component.Load("Nuclear Reactor"))
-        Dim chassis As BodyPart = chassisBP.Construct("Chassis", Nothing)
+        Dim chassis As BodyPart
+        With Blueprint.Load("Standard Chassis")
+            .AddComponent(Component.Load("Silvered Steel"))
+            .AddComponent(Component.Load("Synthetic Network"))
+            .AddComponent(Component.Load("Nuclear Reactor"))
+            chassis = .Construct("Chassis", Nothing)
+        End With
 
         Dim mechdesign As MechDesign = mechdesign.Load("Testmech")
         mechdesign.AddComponent(handcannon)
