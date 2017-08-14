@@ -52,12 +52,11 @@
     Private Sub Combat(ByVal battlefield As Battlefield)
         While battlefield.IsOver = False
             Dim active As Combatant = battlefield.InitBagGrab
+            Console.WriteLine("It is " & active.Name & "'s initiative.")
             If TypeOf active Is Enemy Then
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
-            ElseIf TypeOf active Is Companion Then
-
-            ElseIf TypeOf active Is Mech Then
+            ElseIf TypeOf active Is Companion OrElse TypeOf active Is Mech Then
 
             End If
         End While
