@@ -6,13 +6,27 @@
             Return BattleSequence.Mech
         End Get
     End Property
-    Private ReadOnly Property Allies As List(Of Combatant)
+    Private ReadOnly Property Companions As List(Of Combatant)
         Get
-            Return BattleSequence.Allies
+            Return BattleSequence.Companions
         End Get
     End Property
     Private Enemies As New List(Of Combatant)
-    Protected Overrides ReadOnly Property IsOver As Boolean
+    Public Sub AddCombatant(ByVal combatant As Combatant)
+        combatant.Battlefield = Me
+        Select Case combatant.GetType
+            Case GetType(Mech), GetType(Companion) : BattleSequence.AddCombatant(combatant)
+            Case GetType(Enemy) : Enemies.Add(combatant)
+        End Select
+    End Sub
+    Public Sub RemoveCombatant(ByVal combatant As Combatant)
+        combatant.Battlefield = Nothing
+        Select Case combatant.GetType
+            Case GetType(Mech), GetType(Companion) : BattleSequence.RemoveCombatant(combatant)
+            Case GetType(Enemy) : Enemies.Remove(combatant)
+        End Select
+    End Sub
+    Public Overrides ReadOnly Property IsOver As Boolean
         Get
             If Mech Is Nothing Then Return True
             If Enemies.Count = 0 Then Return True
@@ -31,7 +45,7 @@
         For n = 1 To Mech.SpeedTokens
             InitBag.Add(Mech)
         Next
-        For Each ally In Allies
+        For Each ally In Companions
             For n = 1 To ally.SpeedTokens
                 InitBag.Add(ally)
             Next
@@ -82,9 +96,12 @@
             Dim chosenEnemySet As Queue(Of String) = GetRandom(Of Queue(Of String))(enemyList)
             While chosenEnemySet.Count > 0
                 Dim enemyName As String = chosenEnemySet.Dequeue
-                .Enemies.Add(Enemy.Load(enemyName))
+                .AddCombatant(enemy.Load(enemyName))
             End While
         End With
         Return bf
+    End Function
+    Public Overrides Function ToString() As String
+        Return Mech.Name & " vs " & Enemies.Count
     End Function
 End Class

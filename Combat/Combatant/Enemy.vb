@@ -10,11 +10,8 @@
             .Name = raw.Dequeue
             While raw.Count > 0
                 Dim ln As String() = raw.Dequeue.Split(":")
-                Dim isCritical As Boolean = False
-                If ln(0) = "Critical" Then isCritical = True
                 Dim limbName As String = ln(1).Trim
-
-                Dim bp As BodyPart = BodyPart.Load(limbName, isCritical)
+                Dim bp As BodyPart = BodyPart.Load(limbName, ln(0))
                 .BodyParts.Add(bp)
             End While
 

@@ -1,6 +1,6 @@
 ﻿Public MustInherit Class Encounter
     Protected Terrain As BattlefieldTerrain
-    Protected MustOverride ReadOnly Property IsOver As Boolean
+    Public MustOverride ReadOnly Property IsOver As Boolean
 
     Public Shared Function Construct(ByVal battleSequence As BattleSequence, ByVal terrain As BattlefieldTerrain, ByVal difficulty As Integer) As Encounter
         '50% battle, 10% challenge, 25% skill, 15% branch

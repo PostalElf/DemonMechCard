@@ -7,7 +7,7 @@
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
-                If bp.IsCritical = True Then total += bp.Health
+                If bp.IsCritical = True OrElse bp.IsVital = True Then total += bp.Health
             Next
             Return total
         End Get
@@ -16,7 +16,7 @@
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
-                If bp.IsCritical = True Then total += bp.HealthMax
+                If bp.IsCritical = True OrElse bp.IsVital = True Then total += bp.HealthMax
             Next
             Return total
         End Get
@@ -69,7 +69,7 @@
         If CheckProtection(targetLimb) <> Nothing Then Return "Target protected by " & CheckProtection(targetLimb)
 
         'initialise report
-        Dim total As String = Name & " hits " & target.Name & "'s " & targetlimb.name & " for "
+        Dim total As String = Name & " hits " & target.Name & "'s " & targetLimb.Name & " for "
 
         'roll for damage and check for modifiers
         Dim dmg As Integer = damage.Roll
@@ -102,6 +102,7 @@
         Return Nothing
     End Function
 
+    Public Battlefield As Battlefield
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
         Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
 
@@ -109,13 +110,25 @@
         targetLimb.Owner = Nothing
         BodyParts.Remove(targetLimb)
 
-        'check if critical
-        If targetLimb.IsCritical = True Then
-            If TotalHealth <= 0 Then total &= vbCrLf & Name & " has been annihilated!"
+        'check if vital or critical
+        If Not (targetLimb.IsVital = False) Then
+        ElseIf Not (targetLimb.IsCritical = True AndAlso TotalHealth <= 0) Then
+        Else
+            total &= vbCrLf & Name & " has been annihilated!"
+            DestroySelf()
         End If
 
         Return total
     End Function
+    Private Sub DestroySelf()
+        Select Case Me.GetType
+            Case GetType(Enemy), GetType(Companion)
+                If Battlefield Is Nothing = False Then Battlefield.RemoveCombatant(Me)
+            Case GetType(Mech)
+                MsgBox("CH-BABOOM!")
+                End
+        End Select
+    End Sub
     Public Sub FullReady()
         For Each bp In BodyParts
             bp.FullReady()

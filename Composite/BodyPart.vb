@@ -5,6 +5,18 @@
     Public Ammo As Integer
     Public Damage As Damage
 
+    Private _IsCritical As Boolean
+    Public ReadOnly Property IsCritical As Boolean
+        Get
+            Return _IsCritical
+        End Get
+    End Property
+    Private _IsVital As Boolean
+    Public ReadOnly Property IsVital As Boolean
+        Get
+            Return _IsVital
+        End Get
+    End Property
     Public ReadOnly Property IsWeapon As Boolean
         Get
             If WeaponType = Nothing Then Return False Else Return True
@@ -39,7 +51,7 @@
         Return Protects.Contains(name)
     End Function
 
-    Public Overloads Shared Function Load(ByVal enemyLimbName As String, ByVal isCritical As Boolean) As BodyPart
+    Public Overloads Shared Function Load(ByVal enemyLimbName As String, ByVal critVital As String) As BodyPart
         'builds bodypart from a name in enemylimbs.txt
         Dim raw As Queue(Of String) = SquareBracketLoader("data/enemylimbs.txt", enemyLimbName)
 
@@ -59,7 +71,11 @@
                 End If
                 .Build(key, value)
             End While
-            ._IsCritical = isCritical
+
+            Select Case critVital
+                Case "Critical" : ._IsCritical = True
+                Case "Vital" : ._IsVital = True
+            End Select
         End With
         Return bp
     End Function

@@ -44,9 +44,11 @@
         mech.FullReady()
 
         Dim BattleSequence As New BattleSequence
-        BattleSequence.Mech = mech
+        BattleSequence.AddCombatant(mech)
         Dim Battlefield As Battlefield = Battlefield.Construct(BattleSequence, BattlefieldTerrain.Wasteland, 1)
+        While Battlefield.IsOver = False
 
+        End While
     End Sub
 
     Private Sub Combat()
