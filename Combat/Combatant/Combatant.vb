@@ -55,6 +55,14 @@
         End Select
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
+    Protected Function GetTargets(ByVal attack As BodyPart) As List(Of Combatant)
+        Dim potentialTargets As List(Of Combatant) = Battlefield.GetTargets(Me)
+        Dim total As New List(Of Combatant)
+        For Each pt In potentialTargets
+            If attack.CheckAttackRange(GetDistance(pt)) = True Then total.Add(pt)
+        Next
+        Return total
+    End Function
     Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
         'set attackLimb and damage
         If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return "Invalid weapon!"

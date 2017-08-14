@@ -30,4 +30,11 @@
             Return total
         End Get
     End Property
+    Private Function GetAttack() As BodyPart
+        Return GetRandom(Of BodyPart)(Attacks)
+    End Function
+    Public Function PerformAction() As String
+        Dim attack As BodyPart = GetAttack()
+        Dim targets As List(Of Combatant) = GetTargets(attack)
+    End Function
 End Class

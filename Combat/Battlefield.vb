@@ -26,6 +26,19 @@
             Case GetType(Enemy) : Enemies.Remove(combatant)
         End Select
     End Sub
+    Public Function GetTargets(ByVal attacker As Combatant) As List(Of Combatant)
+        Dim total As New List(Of Combatant)
+        If TypeOf attacker Is Mech OrElse TypeOf attacker Is Companion Then
+            total.AddRange(Enemies)
+        ElseIf TypeOf attacker Is Enemy Then
+            total.Add(Mech)
+            total.AddRange(Companions)
+        Else
+            Throw New Exception("No targets available.")
+            Return Nothing
+        End If
+        Return total
+    End Function
     Public Overrides ReadOnly Property IsOver As Boolean
         Get
             If Mech Is Nothing Then Return True
@@ -74,10 +87,6 @@
         Next
         Return total
     End Function
-    Public Sub AICombatantAct()
-        'this is called from GUI whenever an AI combatant is drawn
-        'TODO: AI takes actions here
-    End Sub
 
     Public Shared Shadows Function Construct(ByVal _battleSequence As BattleSequence, ByVal _terrain As BattlefieldTerrain, ByVal difficulty As Integer, Optional ByVal isBoss As Boolean = False) As Battlefield
         Dim bf As New Battlefield

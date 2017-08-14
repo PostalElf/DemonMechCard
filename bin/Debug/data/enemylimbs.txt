@@ -17,11 +17,6 @@ Dodge: 5
 Health: 20
 Dodge: 5
 
-[Feathered Wings]
-Health: 20
-Dodge: 10
-Speed: 10
-
 [Bone Sword]
 Health: 5
 Dodge: 20
@@ -31,8 +26,7 @@ AmmoMax: -1
 Accuracy: 40
 Damage: 20 - 30 Kinetic
 
-[Humanoid Body]
+[Humanoid]
 Health: 20
 Dodge: 5
 Speed: 10
-

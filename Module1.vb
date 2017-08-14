@@ -46,13 +46,19 @@
         Dim BattleSequence As New BattleSequence
         BattleSequence.AddCombatant(mech)
         Dim Battlefield As Battlefield = Battlefield.Construct(BattleSequence, BattlefieldTerrain.Wasteland, 1)
-        While Battlefield.IsOver = False
+        Combat(Battlefield)
+    End Sub
 
+    Private Sub Combat(ByVal battlefield As Battlefield)
+        While battlefield.IsOver = False
+            Dim active As Combatant = battlefield.InitBagGrab
+            If TypeOf active Is Enemy Then
+                Console.WriteLine(CType(active, Enemy).PerformAction)
+            ElseIf TypeOf active Is Companion Then
+
+            ElseIf TypeOf active Is Mech Then
+
+            End If
         End While
     End Sub
-
-    Private Sub Combat()
-
-    End Sub
-
 End Module

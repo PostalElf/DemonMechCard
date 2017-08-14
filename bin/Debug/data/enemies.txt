@@ -6,12 +6,11 @@ Limb: Chest Carapace
 Critical: Monster Heart
 
 [Succubus]
-Limb: Feathered Wings
-Limb: Bone Sword
-Critical: Humanoid Body
+Vital: Humanoid
 
 [Earthshaker]
 Limb: Spiked Tentacle
+Limb: Bone Sword
 Critical: Monster Heart
 
 [Eater of Dreams]
