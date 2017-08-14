@@ -54,6 +54,7 @@
             Dim active As Combatant = battlefield.InitBagGrab
             If TypeOf active Is Enemy Then
                 Console.WriteLine(CType(active, Enemy).PerformAction)
+                Console.ReadKey()
             ElseIf TypeOf active Is Companion Then
 
             ElseIf TypeOf active Is Mech Then

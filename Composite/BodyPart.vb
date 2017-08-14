@@ -79,13 +79,26 @@
         End With
         Return bp
     End Function
-    Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
+    Public Overloads Sub FinalMerge(Optional ByVal finalDamageType As DamageType = Nothing)
         If IsWeapon = True Then
             AttackRangesRemove.Add(AttackRange.Out)             'always remove Out of Reach range for obvious reasons
             For Each ar In AttackRangesRemove
                 If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
             Next
-            If DamageTypes.Contains(finalDamageType) = False Then finalDamageType = DamageType.Kinetic
+
+            If finalDamageType = Nothing Then
+                'no FinalDamageType specified; attempt to use i=0 if count=1, or roll random if count>1
+                Select Case DamageTypes.Count
+                    Case 0 : finalDamageType = DamageType.Kinetic
+                    Case 1 : finalDamageType = DamageTypes(0)
+                    Case Is > 1 : finalDamageType = GetRandom(Of DamageType)(DamageTypes)
+                End Select
+            Else
+                'finalDamageType specified, check if it is contained within damageTypes
+                'if not, just set to kinetic as default
+                If DamageTypes.Contains(finalDamageType) = False Then finalDamageType = DamageType.Kinetic
+            End If
+
             Damage = New Damage(DamageMin, DamageSpread, Accuracy, finalDamageType)
         End If
     End Sub

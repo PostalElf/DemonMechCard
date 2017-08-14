@@ -55,7 +55,15 @@
         End Select
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
-    Protected Function GetTargets(ByVal attack As BodyPart) As List(Of Combatant)
+    Protected Function GetPotentialAttacks(ByVal target As Combatant) As List(Of BodyPart)
+        Dim potentialTargets = Battlefield.GetTargets(Me)
+        Dim total As New List(Of BodyPart)
+        For Each attack In Attacks
+            If attack.CheckAttackRange(GetDistance(target)) = True Then total.Add(attack)
+        Next
+        Return total
+    End Function
+    Protected Function GetPotentialTargets(ByVal attack As BodyPart) As List(Of Combatant)
         Dim potentialTargets As List(Of Combatant) = Battlefield.GetTargets(Me)
         Dim total As New List(Of Combatant)
         For Each pt In potentialTargets
@@ -63,17 +71,20 @@
         Next
         Return total
     End Function
-    Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
+    Public Function GetTargetLimbs() As List(Of BodyPart)
+        Dim total As New List(Of BodyPart)
+        For Each bp In BodyParts
+            If CheckProtection(bp) = "" Then total.Add(bp)
+        Next
+        Return total
+    End Function
+    Public Function PerformsAttack(ByVal attackLimb As BodyPart, ByVal target As Combatant, ByVal targetLimb As BodyPart) As String
         'set attackLimb and damage
-        If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return "Invalid weapon!"
-        Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
         If attackLimb.CheckAttackRange(GetDistance(target)) = False Then Return "Target out of range!"
         If attackLimb.IsReady = False Then Return "Weapon not ready!"
         Dim damage As Damage = attackLimb.Damage
 
         'set targetLimb
-        If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return "Invalid limb target!"
-        Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
         If CheckProtection(targetLimb) <> Nothing Then Return "Target protected by " & CheckProtection(targetLimb)
 
         'initialise report
@@ -96,12 +107,21 @@
         If modString <> "" Then total &= " [" & modString & "]"
 
         'actually do the attack
-        attackLimb.Ammo -= 1
+        If attackLimb.Ammo <> -1 Then attackLimb.Ammo -= 1
         targetLimb.Health -= dmg
         If targetLimb.Health <= 0 Then total &= vbCrLf & DestroyLimb(targetLimb)
 
         'return report
         Return total
+    End Function
+    Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
+        If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return "Invalid weapon!"
+        Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
+
+        If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return "Invalid limb target!"
+        Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
+
+        Return PerformsAttack(attackLimb, target, targetLimb)
     End Function
     Private Function CheckProtection(ByVal targetLimb As BodyPart) As String
         For Each bp In BodyParts
@@ -112,7 +132,7 @@
 
     Public Battlefield As Battlefield
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
-        Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
+        Dim total As String = targetLimb.Owner.Name & "'s " & targetLimb.Name & " is destroyed!"
 
         'remove limb from bodyparts
         targetLimb.Owner = Nothing
