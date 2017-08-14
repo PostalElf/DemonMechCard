@@ -15,6 +15,7 @@
     End Property
     Protected Dodge As Integer
     Protected Defences As New List(Of DamageType)
+    Protected Protects As New List(Of String)
 
     Protected WeaponType As WeaponType
     Protected _HandCost As Integer
@@ -86,6 +87,11 @@
                     Dim entry As DamageType = String2Enum(Of DamageType)(v)
                     If entry <> Nothing Then Defences.Add(entry)
                 Next
+            Case "Protects"
+                Dim total As List(Of String) = UnformatCommaList(value)
+                For Each v In total
+                    If Protects.Contains(v) = False Then Protects.Add(v)
+                Next
 
             Case "WeaponType" : WeaponType = String2Enum(Of WeaponType)(value)
             Case "HandCost" : _HandCost = CInt(value)
@@ -119,6 +125,9 @@
         Dodge += c.Dodge
         For Each d In c.Defences
             If Defences.Contains(d) = False Then Defences.Add(d)
+        Next
+        For Each p In c.Protects
+            If Protects.Contains(p) = False Then Protects.Add(p)
         Next
 
         If WeaponType = Nothing AndAlso c.WeaponType <> Nothing Then WeaponType = c.WeaponType

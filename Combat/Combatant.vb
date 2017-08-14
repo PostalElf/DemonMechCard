@@ -66,6 +66,7 @@
         'set targetLimb
         If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return "Invalid limb target!"
         Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
+        If CheckProtection(targetLimb) <> Nothing Then Return "Target protected by " & CheckProtection(targetLimb)
 
         'initialise report
         Dim total As String = Name & " hits " & target.Name & "'s " & targetlimb.name & " for "
@@ -94,6 +95,13 @@
         'return report
         Return total
     End Function
+    Private Function CheckProtection(ByVal targetLimb As BodyPart) As String
+        For Each bp In BodyParts
+            If bp.CheckProtecting(targetLimb.Name) = True Then Return targetLimb.Name
+        Next
+        Return Nothing
+    End Function
+
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
         Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
 

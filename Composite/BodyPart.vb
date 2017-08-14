@@ -4,6 +4,7 @@
     Public Health As Integer
     Public Ammo As Integer
     Public Damage As Damage
+
     Public ReadOnly Property IsWeapon As Boolean
         Get
             If WeaponType = Nothing Then Return False Else Return True
@@ -31,6 +32,9 @@
             If roll < Dodge - accuracy Then Return "DDG"
         End If
         Return Nothing
+    End Function
+    Public Function CheckProtecting(ByVal name As String) As Boolean
+        Return Protects.Contains(name)
     End Function
 
     Public Overloads Shared Function Load(ByVal enemyLimbName As String, ByVal isCritical As Boolean) As BodyPart
