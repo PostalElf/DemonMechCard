@@ -13,7 +13,9 @@
     Public ReadOnly Property IsReady As Boolean
         Get
             If IsWeapon = False Then Return False
-            If Ammo > 0 AndAlso Health > 0 Then Return True Else Return False
+            If Health <= 0 Then Return False
+            If Ammo <= 0 AndAlso AmmoMax <> -1 Then Return False
+            Return True
         End Get
     End Property
     Public Function CheckAttackRange(ByVal attackRange As AttackRange) As Boolean

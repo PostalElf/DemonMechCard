@@ -113,6 +113,11 @@
             Case "DamageMin" : DamageMin = CInt(value)
             Case "DamageSpread" : DamageSpread = CInt(value)
             Case "DamageType" : Dim dt As DamageType = String2Enum(Of DamageType)(value) : If DamageTypes.Contains(dt) = False Then DamageTypes.Add(dt)
+            Case "Damage"
+                Dim ln As String() = value.Split(" ")
+                DamageMin = CInt(ln(0))
+                DamageSpread = CInt(ln(2) - DamageMin)
+                Build("DamageType", ln(3))
 
             Case "Speed" : _Speed = CInt(value)
             Case "ExtraHands" : _ExtraHands += CInt(value)

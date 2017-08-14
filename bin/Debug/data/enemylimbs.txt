@@ -1,0 +1,16 @@
+[Spiked Tentacle]
+Health: 15
+Dodge: 10
+AttackRanges: Average, Close
+AmmoMax: -1
+Damage: 10 - 20 Kinetic
+
+[Chest Carapace]
+Protects: Monster Heart
+Health: 20
+Dodge: 5
+
+[Monster Heart]
+IsCritical: True
+Health: 20
+Dodge: 5
