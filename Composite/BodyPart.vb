@@ -35,6 +35,7 @@
 
     Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
         If IsWeapon = True Then
+            AttackRangesRemove.Add(AttackRange.Out)             'always remove Out of Reach range for obvious reasons
             For Each ar In AttackRangesRemove
                 If AttackRanges.Contains(ar) Then AttackRanges.Remove(ar)
             Next
