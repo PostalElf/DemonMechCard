@@ -43,12 +43,14 @@
         End With
         mech.FullReady()
 
-        Console.WriteLine(mech.PerformsAttack(0, mech, 1))
+        Dim enemy As Enemy = enemy.Load("Tentacled Horror")
+        enemy.FullReady()
+        Console.WriteLine(enemy.SpeedTokens)
         Console.ReadKey()
     End Sub
 
     Private Sub Combat()
-        Dim battlefield As Battlefield
+
     End Sub
 
 End Module

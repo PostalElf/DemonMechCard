@@ -45,6 +45,8 @@
 
         Dim bp As New BodyPart
         With bp
+            .Name = raw.Dequeue
+
             While raw.Count > 0
                 Dim ln As String() = raw.Dequeue.Split(":")
                 Dim key, value As String

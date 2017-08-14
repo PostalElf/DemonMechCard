@@ -1,0 +1,6 @@
+[Tentacled Horror]
+Limb: Spiked Tentacle
+Limb: Spiked Tentacle
+Limb: Spiked Tentacle
+Limb: Chest Carapace
+Critical: Monster Heart

@@ -1,8 +1,11 @@
 [Spiked Tentacle]
 Health: 15
+Speed: 10
 Dodge: 10
+WeaponType: Conventional
 AttackRanges: Average, Close
 AmmoMax: -1
+Accuracy: 10
 Damage: 10 - 20 Kinetic
 
 [Chest Carapace]

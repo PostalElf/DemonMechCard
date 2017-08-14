@@ -12,10 +12,13 @@
                 Dim ln As String() = raw.Dequeue.Split(":")
                 Dim isCritical As Boolean = False
                 If ln(0) = "Critical" Then isCritical = True
-                Dim bp As BodyPart = BodyPart.Load(ln(0).Trim, isCritical)
+                Dim limbName As String = ln(1).Trim
 
+                Dim bp As BodyPart = BodyPart.Load(limbName, isCritical)
                 .BodyParts.Add(bp)
             End While
+
+            .BaseModifier = New Component
         End With
         Return enemy
     End Function
