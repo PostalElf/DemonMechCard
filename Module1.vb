@@ -11,25 +11,25 @@
 
         Dim armL As BodyPart
         With Blueprint.Load("Standard Arm")
-            .AddComponent(Component.Load("Silvered Steel"))
-            .AddComponent(Component.Load("Articulated Hand"))
-            .AddComponent(Component.Load("Micromotor"))
+            .AddComponent("Silvered Steel")
+            .AddComponent("Articulated Hand")
+            .AddComponent("Micromotor")
             armL = .Construct("Left Arm", DamageType.Kinetic)
         End With
 
         Dim armR As BodyPart
         With Blueprint.Load("Standard Arm")
-            .AddComponent(Component.Load("Nanocarbon Steel"))
-            .AddComponent(Component.Load("Powerfist"))
-            .AddComponent(Component.Load("Micromotor"))
+            .AddComponent("Nanocarbon Steel")
+            .AddComponent("Powerfist")
+            .AddComponent("Micromotor")
             armR = .Construct("Right Fist Arm", DamageType.Kinetic)
         End With
 
         Dim chassis As BodyPart
         With Blueprint.Load("Standard Chassis")
-            .AddComponent(Component.Load("Silvered Steel"))
-            .AddComponent(Component.Load("Synthetic Network"))
-            .AddComponent(Component.Load("Nuclear Reactor"))
+            .AddComponent("Silvered Steel")
+            .AddComponent("Synthetic Network")
+            .AddComponent("Nuclear Reactor")
             chassis = .Construct("Chassis", Nothing)
         End With
 
@@ -45,6 +45,10 @@
 
         Console.WriteLine(mech.PerformsAttack(0, mech, 1))
         Console.ReadKey()
+    End Sub
+
+    Private Sub Combat()
+        Dim battlefield As Battlefield
     End Sub
 
 End Module

@@ -15,8 +15,14 @@
             .BlueprintName = raw.Dequeue
             While raw.Count > 0
                 Dim ln As String() = raw.Dequeue.Split(":")
-                Dim key As String = ln(0).Trim
-                Dim value As String = ln(1).Trim
+                Dim key, value As String
+                If ln.Count = 2 Then
+                    key = ln(0).Trim
+                    value = ln(1).Trim
+                Else
+                    key = ln(0).Trim
+                    value = ""
+                End If
                 .Build(key, value)
             End While
         End With
@@ -52,6 +58,9 @@
         Components.Add(c)
         ComponentTypesEmpty.Remove(c.Slot)
         ComponentTypesFilled.Add(c.Slot)
+    End Sub
+    Public Sub AddComponent(ByVal componentName As String)
+        AddComponent(Component.Load(componentName))
     End Sub
     Public Sub RemoveComponent(ByVal c As Component)
         If ComponentTypesFilled.Contains(c.Slot) = False OrElse Components.Contains(c) = False Then Exit Sub

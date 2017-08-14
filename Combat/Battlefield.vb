@@ -1,20 +1,29 @@
 ﻿Public Class Battlefield
-    Public Sub New(ByVal _enemies As List(Of Combatant), ByVal _allies As List(Of Combatant))
-        Enemies = _enemies
-        Allies = _allies
-    End Sub
-    Private Enemies As List(Of Combatant)
+    Private Terrain As BattlefieldTerrain
+    Private Enemies As List(Of Enemy)
+    Private Mech As Combatant
     Private Allies As List(Of Combatant)
+    Private ReadOnly Property IsOver As Boolean
+        Get
+            If Mech Is Nothing Then Return True
+            If Enemies.Count = 0 Then Return True
+
+            Return False
+        End Get
+    End Property
 
     Private InitBag As New List(Of Combatant)
     Private Sub InitBagNew()
         For Each enemy In Enemies
-            For n = 1 To enemy.TotalSpeed
+            For n = 1 To enemy.SpeedTokens
                 InitBag.Add(enemy)
             Next
         Next
+        For n = 1 To Mech.SpeedTokens
+            InitBag.Add(Mech)
+        Next
         For Each ally In Allies
-            For n = 1 To ally.TotalSpeed
+            For n = 1 To ally.SpeedTokens
                 InitBag.Add(ally)
             Next
         Next

@@ -33,6 +33,28 @@
         Return Nothing
     End Function
 
+    Public Overloads Shared Function Load(ByVal enemyLimbName As String, ByVal isCritical As Boolean) As BodyPart
+        'builds bodypart from a name in enemylimbs.txt
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/enemylimbs.txt", enemyLimbName)
+
+        Dim bp As New BodyPart
+        With bp
+            While raw.Count > 0
+                Dim ln As String() = raw.Dequeue.Split(":")
+                Dim key, value As String
+                If ln.Count = 2 Then
+                    key = ln(0).Trim
+                    value = ln(1).Trim
+                Else
+                    key = ln(0).Trim
+                    value = ""
+                End If
+                .Build(key, value)
+            End While
+            ._IsCritical = isCritical
+        End With
+        Return bp
+    End Function
     Public Overloads Sub FinalMerge(ByVal finalDamageType As DamageType)
         If IsWeapon = True Then
             AttackRangesRemove.Add(AttackRange.Out)             'always remove Out of Reach range for obvious reasons

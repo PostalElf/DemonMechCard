@@ -27,13 +27,17 @@
             Return Math.Ceiling(total)
         End Get
     End Property
-    Public ReadOnly Property TotalSpeed As Integer
+    Public ReadOnly Property SpeedTokens As Integer
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
                 total += bp.Speed
             Next
             total += BaseModifier.Speed
+
+            'return /= 10 for the number of tokens it adds to the bag, minimum 1
+            total /= 10
+            If total <= 0 Then total = 1
             Return total
         End Get
     End Property
