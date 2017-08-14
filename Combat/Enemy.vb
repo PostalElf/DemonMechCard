@@ -19,6 +19,7 @@
             End While
 
             .BaseModifier = New Component
+            .FullReady()
         End With
         Return enemy
     End Function

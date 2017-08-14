@@ -72,8 +72,10 @@
     <Compile Include="Combat\AttackRange.vb" />
     <Compile Include="Combat\Battlefield.vb" />
     <Compile Include="Combat\BattlefieldTerrain.vb" />
+    <Compile Include="Combat\BattleSequence.vb" />
     <Compile Include="Combat\Combatant.vb" />
     <Compile Include="Combat\Damage.vb" />
+    <Compile Include="Combat\Encounter.vb" />
     <Compile Include="Combat\Enemy.vb" />
     <Compile Include="Combat\WeaponType.vb" />
     <Compile Include="Dev\Common.vb" />

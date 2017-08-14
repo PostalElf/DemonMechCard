@@ -14,6 +14,25 @@ Health: 20
 Dodge: 5
 
 [Monster Heart]
-IsCritical: True
 Health: 20
 Dodge: 5
+
+[Feathered Wings]
+Health: 20
+Dodge: 10
+Speed: 10
+
+[Bone Sword]
+Health: 5
+Dodge: 20
+WeaponType: Conventional
+AttackRanges: Close
+AmmoMax: -1
+Accuracy: 40
+Damage: 20 - 30 Kinetic
+
+[Humanoid Body]
+Health: 20
+Dodge: 5
+Speed: 10
+

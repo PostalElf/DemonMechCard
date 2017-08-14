@@ -4,3 +4,16 @@ Limb: Spiked Tentacle
 Limb: Spiked Tentacle
 Limb: Chest Carapace
 Critical: Monster Heart
+
+[Succubus]
+Limb: Feathered Wings
+Limb: Bone Sword
+Critical: Humanoid Body
+
+[Earthshaker]
+Limb: Spiked Tentacle
+Critical: Monster Heart
+
+[Eater of Dreams]
+Limb: Spiked Tentacle
+Critical: Monster Heart

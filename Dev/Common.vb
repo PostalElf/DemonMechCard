@@ -28,6 +28,17 @@ Public Module Common
         GrabRandom = list(roll)
         list.RemoveAt(roll)
     End Function
+    Public Function GetProbability(ByVal probabilities As Integer()) As Integer
+        'returns index of probabilities
+        Dim roll As Integer = Rng.Next(1, 101)
+        Dim count As Integer = probabilities(0)
+        For n = 0 To probabilities.Count - 1
+            If roll <= count Then Return n
+            If n = probabilities.Count - 1 Then Return -1
+            count += probabilities(n + 1)
+        Next
+        Return -1
+    End Function
 
     Public Function String2Enum(Of T)(ByVal value As String) As T
         For Each dt In [Enum].GetValues(GetType(T))

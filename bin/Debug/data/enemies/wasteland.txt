@@ -1,0 +1,13 @@
+[1]
+Tentacled Horror
+Tentacled Horror
+
+[1]
+Succubus
+Tentacled Horror
+
+[1 Boss]
+Earthshaker
+
+[1 Boss]
+Eater of Dreams

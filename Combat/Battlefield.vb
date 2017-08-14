@@ -1,9 +1,18 @@
 ﻿Public Class Battlefield
-    Private Terrain As BattlefieldTerrain
-    Private Enemies As List(Of Enemy)
-    Private Mech As Combatant
-    Private Allies As List(Of Combatant)
-    Private ReadOnly Property IsOver As Boolean
+    Inherits Encounter
+    Private BattleSequence As BattleSequence
+    Private ReadOnly Property Mech As Mech
+        Get
+            Return BattleSequence.Mech
+        End Get
+    End Property
+    Private ReadOnly Property Allies As List(Of Combatant)
+        Get
+            Return BattleSequence.Allies
+        End Get
+    End Property
+    Private Enemies As New List(Of Combatant)
+    Protected Overrides ReadOnly Property IsOver As Boolean
         Get
             If Mech Is Nothing Then Return True
             If Enemies.Count = 0 Then Return True
@@ -56,5 +65,26 @@
         'TODO: AI takes actions here
     End Sub
 
+    Public Shared Shadows Function Construct(ByVal _battleSequence As BattleSequence, ByVal _terrain As BattlefieldTerrain, ByVal difficulty As Integer, Optional ByVal isBoss As Boolean = False) As Battlefield
+        Dim bf As New Battlefield
+        With bf
+            .BattleSequence = _battleSequence
+            .Terrain = _terrain
 
+            'get enemyList, which is a list of enemySets
+            'eg. [1] Tentacled Horror, Tentacled Horror, 
+            Dim enemyFileName As String = "data/enemies/" & .Terrain.ToString.ToLower & ".txt"
+            Dim categoryName As String = difficulty
+            If isBoss = True Then categoryName &= " Boss"
+            Dim enemyList As List(Of Queue(Of String)) = SquareBracketCategorialLoader(enemyFileName, difficulty)
+
+            'pick a random enemySet, then construct them as enemies
+            Dim chosenEnemySet As Queue(Of String) = GetRandom(Of Queue(Of String))(enemyList)
+            While chosenEnemySet.Count > 0
+                Dim enemyName As String = chosenEnemySet.Dequeue
+                .Enemies.Add(Enemy.Load(enemyName))
+            End While
+        End With
+        Return bf
+    End Function
 End Class

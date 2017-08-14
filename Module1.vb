@@ -43,10 +43,10 @@
         End With
         mech.FullReady()
 
-        Dim enemy As Enemy = enemy.Load("Tentacled Horror")
-        enemy.FullReady()
-        Console.WriteLine(enemy.SpeedTokens)
-        Console.ReadKey()
+        Dim BattleSequence As New BattleSequence
+        BattleSequence.Mech = mech
+        Dim Battlefield As Battlefield = Battlefield.Construct(BattleSequence, BattlefieldTerrain.Wasteland, 1)
+
     End Sub
 
     Private Sub Combat()
