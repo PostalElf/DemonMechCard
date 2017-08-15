@@ -2,6 +2,11 @@
     Inherits Component
     Public Owner As Combatant
     Public Health As Integer
+    Private ReadOnly Property HealthPercentage As Integer
+        Get
+            Return Math.Max(Math.Ceiling(Health / HealthMax * 100), 0)
+        End Get
+    End Property
     Public Ammo As Integer
     Public Damage As Damage
 
@@ -101,9 +106,40 @@
 
             Damage = New Damage(DamageMin, DamageSpread, Accuracy, finalDamageType)
         End If
+
+        If HealthMax <= 0 Then _HealthMax = 1
+        Select Case Slot
+            Case "Chassis", "Phylactery" : _IsVital = True
+        End Select
     End Sub
     Public Overrides Function ToString() As String
         Return Name
+    End Function
+    Public Function ConsoleReport() As String
+        Dim total As String = ""
+        total &= "[" & HealthPercentage.ToString("000") & "%"
+        If IsCritical = True OrElse IsVital = True Then
+            total &= "-"
+            If IsCritical = True Then total &= "c"
+            If IsVital = True Then total &= "v"
+        End If
+        total &= "] "
+        total &= Name & ": "
+
+        total &= "»" & Dodge & "%"
+        If Defences.Count > 0 Then
+            total &= ","
+            For Each d In Defences
+                total &= Damage.Shortener(d)
+            Next
+        End If
+        total &= "» "
+
+        If IsWeapon = True Then
+            total &= Damage.ToString
+        End If
+
+        Return total
     End Function
 
     Public Sub FullReady()

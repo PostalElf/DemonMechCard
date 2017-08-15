@@ -166,4 +166,17 @@
     Public Overrides Function ToString() As String
         Return Name
     End Function
+    Public Function ConsoleReport() As String
+        Dim total As String = ""
+        total &= Name & vbCrLf
+        total &= "└ Health:   " & HealthPercentage & "%" & vbCrLf
+        total &= "└ Init:     " & SpeedTokens & vbCrLf
+        total &= "└ Position: " & DistanceFromMiddle.ToString & vbCrLf
+
+        total &= "└ Limbs:" & vbCrLf
+        For Each bp In BodyParts
+            total &= "  └ " & bp.consolereport & vbCrLf
+        Next
+        Return total
+    End Function
 End Class

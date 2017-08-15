@@ -67,4 +67,12 @@
             MyBase.AddComponent(c)
         End If
     End Sub
+    Public Overloads Sub RemoveComponent(ByVal c As Component)
+        If c.Slot = "Handweapon" Then
+            If Inventory.Contains(c) = False Then Exit Sub
+            Inventory.Remove(c)
+        Else
+            MyBase.RemoveComponent(c)
+        End If
+    End Sub
 End Class

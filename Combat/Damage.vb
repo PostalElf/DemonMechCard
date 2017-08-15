@@ -17,6 +17,17 @@
         Next
         Return Math.Round(total / 3)
     End Function
+    Public Shared Function Shortener(ByVal dt As DamageType) As String
+        Select Case dt
+            Case DamageType.Kinetic : Return "K"
+            Case DamageType.Fire : Return "F"
+            Case DamageType.Frost : Return "R"
+            Case DamageType.Lightning : Return "L"
+            Case DamageType.Alchemical : Return "A"
+            Case DamageType.Sorcerous : Return "S"
+            Case Else : Throw New Exception("Unrecognised damagetype")
+        End Select
+    End Function
     Public Overrides Function ToString() As String
         Return Min & "-" & Max & " " & DamageType.ToString
     End Function

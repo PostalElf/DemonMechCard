@@ -1,17 +1,17 @@
 ﻿Public Class Battlefield
     Inherits Encounter
     Private BattleSequence As BattleSequence
-    Private ReadOnly Property Mech As Mech
+    Public ReadOnly Property Mech As Mech
         Get
             Return BattleSequence.Mech
         End Get
     End Property
-    Private ReadOnly Property Companions As List(Of Combatant)
+    Public ReadOnly Property Companions As List(Of Combatant)
         Get
             Return BattleSequence.Companions
         End Get
     End Property
-    Private Enemies As New List(Of Combatant)
+    Public Enemies As New List(Of Combatant)
     Public Sub AddCombatant(ByVal combatant As Combatant)
         combatant.Battlefield = Me
         Select Case combatant.GetType

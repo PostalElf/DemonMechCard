@@ -86,6 +86,7 @@
     <Compile Include="Composite\Blueprint.vb" />
     <Compile Include="Composite\Mech.vb" />
     <Compile Include="Composite\MechDesign.vb" />
+    <Compile Include="Dev\Menu.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

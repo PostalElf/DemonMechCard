@@ -43,9 +43,9 @@
         For Each c In Components
             bp.Merge(c)
         Next
+        bp.Slot = Slot
         bp.Merge(BlueprintModifier)         'remember to add BlueprintModifier!
         bp.FinalMerge(finalDamageType)      'call FinalMerge() to finish up loose ends from merging
-        bp.Slot = Slot
         Return bp
     End Function
     Public Overrides Function ToString() As String

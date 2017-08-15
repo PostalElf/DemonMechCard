@@ -57,7 +57,21 @@
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
             ElseIf TypeOf active Is Companion OrElse TypeOf active Is Mech Then
+                Dim choices As New Dictionary(Of Char, String)
+                With choices
+                    .Add("a"c, "Attack")
+                    .Add("s"c, "Examine Self")
+                    .Add("x"c, "Examine Enemies")
+                End With
+                Dim choice As Char = Menu.getListChoice(choices, 0)
 
+                Select Case choice
+                    Case "a"c
+                    Case "s"c
+                        Console.WriteLine(battlefield.Mech.ConsoleReport)
+                        Console.ReadKey()
+                    Case "x"c
+                End Select
             End If
         End While
     End Sub
