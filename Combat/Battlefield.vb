@@ -37,6 +37,7 @@
             Throw New Exception("No targets available.")
             Return Nothing
         End If
+
         Return total
     End Function
     Public Overrides ReadOnly Property IsOver As Boolean

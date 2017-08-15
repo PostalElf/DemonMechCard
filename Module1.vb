@@ -46,6 +46,8 @@
         Dim BattleSequence As New BattleSequence
         BattleSequence.AddCombatant(mech)
         Dim Battlefield As Battlefield = Battlefield.Construct(BattleSequence, BattlefieldTerrain.Wasteland, 1)
+        mech.Battlefield = Battlefield
+        mech.FullReady()
         Combat(Battlefield)
     End Sub
 
@@ -57,21 +59,39 @@
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
             ElseIf TypeOf active Is Companion OrElse TypeOf active Is Mech Then
-                Dim choices As New Dictionary(Of Char, String)
-                With choices
-                    .Add("a"c, "Attack")
-                    .Add("s"c, "Examine Self")
-                    .Add("x"c, "Examine Enemies")
-                End With
-                Dim choice As Char = Menu.getListChoice(choices, 0)
 
-                Select Case choice
-                    Case "a"c
-                    Case "s"c
-                        Console.WriteLine(battlefield.Mech.ConsoleReport)
-                        Console.ReadKey()
-                    Case "x"c
-                End Select
+                While True
+                    Dim choices As New Dictionary(Of Char, String)
+                    With choices
+                        .Add("a"c, "Attack")
+                        .Add("e"c, "Equip Weapon")
+                        .Add("s"c, "Examine Self")
+                        .Add("x"c, "Examine Enemies")
+                    End With
+                    Dim choice As Char = Menu.getListChoice(choices, 0)
+                    Console.WriteLine()
+
+                    Select Case choice
+                        Case "a"c
+                            Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.Attacks, 0, "Select an attack:")
+                            If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Continue While
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.Mech.GetPotentialTargets(attack), 0, "Select a target:")
+                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
+                            Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
+                            If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
+                            Console.WriteLine(battlefield.Mech.PerformsAttack(attack, target, targetLimb))
+                            Exit While
+                        Case "e"c
+
+                        Case "s"c
+                            Console.WriteLine(battlefield.Mech.ConsoleReport)
+                            Exit While
+                        Case "x"c
+                    End Select
+                End While
+
+                Console.ReadKey()
+                Console.Clear()
             End If
         End While
     End Sub

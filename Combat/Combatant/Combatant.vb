@@ -55,7 +55,7 @@
         End Select
     End Function
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
-    Protected Function GetPotentialAttacks(ByVal target As Combatant) As List(Of BodyPart)
+    Public Function GetPotentialAttacks(ByVal target As Combatant) As List(Of BodyPart)
         Dim potentialTargets = Battlefield.GetTargets(Me)
         Dim total As New List(Of BodyPart)
         For Each attack In Attacks
@@ -63,7 +63,7 @@
         Next
         Return total
     End Function
-    Protected Function GetPotentialTargets(ByVal attack As BodyPart) As List(Of Combatant)
+    Public Function GetPotentialTargets(ByVal attack As BodyPart) As List(Of Combatant)
         Dim potentialTargets As List(Of Combatant) = Battlefield.GetTargets(Me)
         Dim total As New List(Of Combatant)
         For Each pt In potentialTargets
@@ -71,7 +71,7 @@
         Next
         Return total
     End Function
-    Public Function GetTargetLimbs() As List(Of BodyPart)
+    Public Function GetTargetableLimbs() As List(Of BodyPart)
         Dim total As New List(Of BodyPart)
         For Each bp In BodyParts
             If CheckProtection(bp) = "" Then total.Add(bp)

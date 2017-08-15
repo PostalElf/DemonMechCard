@@ -55,7 +55,7 @@
         Dim attack As BodyPart = GetRandom(Of BodyPart)(attacks)
 
         'determine targetLimb
-        Dim targetLimbs As List(Of BodyPart) = target.GetTargetLimbs()
+        Dim targetLimbs As List(Of BodyPart) = target.GetTargetableLimbs()
         Dim targetLimb As BodyPart = GetRandom(Of BodyPart)(targetLimbs)
 
         'actually attack
