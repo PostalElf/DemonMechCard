@@ -26,18 +26,33 @@
     End Property
     Private WeaponsEquipped As New List(Of BodyPart)
     Private WeaponsInventory As New List(Of BodyPart)
-    Public Function EquipWeapon(ByVal index As Integer) As String
-        If WeaponsInventory.Count - 1 < index Then Return "Invalid index"
-        Dim tbp As BodyPart = WeaponsInventory(index)
+    Public Function GetEquippableWeapons() As List(Of BodyPart)
+        Dim total As New List(Of BodyPart)
+        For Each bp In WeaponsInventory
+            If EquipWeaponCheck(bp) = "" Then total.Add(bp)
+        Next
+        Return total
+    End Function
+    Private Function EquipWeaponCheck(ByVal tbp As BodyPart) As String
         If TotalHandsFree < tbp.HandCost Then Return "Insufficient hands"
+        If WeaponsEquipped.Contains(tbp) = False Then Return "Invalid handweapon"
+
+        Return Nothing
+    End Function
+    Public Function EquipWeapon(ByVal tbp As BodyPart) As String
+        If EquipWeaponCheck(tbp) <> "" Then Return EquipWeaponCheck(tbp)
 
         WeaponsInventory.Remove(tbp)
         WeaponsEquipped.Add(tbp)
         Return Nothing
     End Function
-    Public Function UnequipWeapon(ByVal index As Integer) As String
-        If WeaponsEquipped.Count - 1 < index Then Return "Invalid index"
-        Dim tbp As BodyPart = WeaponsEquipped(index)
+    Private Function UnequipWeaponCheck(ByVal tbp As BodyPart) As String
+        If WeaponsEquipped.Contains(tbp) = False Then Return "Invalid handweapon"
+
+        Return Nothing
+    End Function
+    Public Function UnequipWeapon(ByVal tbp As BodyPart) As String
+        If UnequipWeaponCheck(tbp) <> "" Then Return UnequipWeaponCheck(tbp)
 
         WeaponsEquipped.Remove(tbp)
         WeaponsInventory.Add(tbp)

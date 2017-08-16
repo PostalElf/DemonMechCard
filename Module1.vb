@@ -82,7 +82,10 @@
                             Console.WriteLine(battlefield.Mech.PerformsAttack(attack, target, targetLimb))
                             Exit While
                         Case "e"c
-
+                            Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.getequippableweapons, 0, "Select a weapon to equip:")
+                            If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
+                            battlefield.Mech.EquipWeapon(target)
+                            Exit While
                         Case "s"c
                             Console.WriteLine(battlefield.Mech.ConsoleReport)
                             Exit While
