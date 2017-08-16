@@ -41,6 +41,35 @@
             Return total
         End Get
     End Property
+    Private HasTakenStandardAction As Boolean
+    Private HasTakenQuickAction As Boolean
+    Public ReadOnly Property IsReadyAct(Optional ByVal isQuick As Boolean = False) As Boolean
+        Get
+            If isQuick = True Then
+                'quick action
+                Return Not (HasTakenQuickAction)
+            Else
+                'standard action
+                If HasTakenQuickAction = False AndAlso HasTakenStandardAction = False Then Return True
+                Return False
+            End If
+        End Get
+    End Property
+    Public Sub FlagAction(Optional ByVal isQuick As Boolean = False)
+        If isQuick = True Then
+            'quick action
+            HasTakenQuickAction = True
+        Else
+            'standard action
+            HasTakenQuickAction = True
+            HasTakenStandardAction = True
+        End If
+    End Sub
+    Public Sub EndInit()
+        'remove action flags
+        HasTakenQuickAction = False
+        HasTakenStandardAction = False
+    End Sub
 
     Private DistanceFromMiddle As AttackRange
     Private Function GetDistance(ByVal target As Combatant) As AttackRange
