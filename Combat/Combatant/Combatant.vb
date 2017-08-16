@@ -108,8 +108,8 @@
 
         'actually do the attack
         If attackLimb.Ammo <> -1 Then attackLimb.Ammo -= 1
-        targetLimb.Health -= dmg
-        If targetLimb.Health <= 0 Then total &= vbCrLf & DestroyLimb(targetLimb)
+        If targetLimb.IsInvulnerable = False Then targetLimb.Health -= dmg
+        If targetLimb.Health <= 0 Then total &= vbCrLf & target.DestroyLimb(targetLimb)
 
         'return report
         Return total
@@ -132,16 +132,14 @@
 
     Public Battlefield As Battlefield
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
-        Dim total As String = targetLimb.Owner.Name & "'s " & targetLimb.Name & " is destroyed!"
+        Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
 
         'remove limb from bodyparts
         targetLimb.Owner = Nothing
         BodyParts.Remove(targetLimb)
 
         'check if vital or critical
-        If Not (targetLimb.IsVital = False) Then
-        ElseIf Not (targetLimb.IsCritical = True AndAlso TotalHealth <= 0) Then
-        Else
+        If Not (targetLimb.IsVital = False) OrElse Not (targetLimb.IsCritical = True AndAlso TotalHealth <= 0) Then
             total &= vbCrLf & Name & " has been annihilated!"
             DestroySelf()
         End If

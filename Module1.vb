@@ -15,6 +15,7 @@
             .AddComponent("Articulated Hand")
             .AddComponent("Micromotor")
             armL = .Construct("Left Arm", DamageType.Kinetic)
+            armL.IsInvulnerable = True
         End With
 
         Dim armR As BodyPart
@@ -23,6 +24,7 @@
             .AddComponent("Powerfist")
             .AddComponent("Micromotor")
             armR = .Construct("Right Fist Arm", DamageType.Kinetic)
+            armR.IsInvulnerable = True
         End With
 
         Dim chassis As BodyPart
@@ -85,6 +87,7 @@
                             Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.getequippableweapons, 0, "Select a weapon to equip:")
                             If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
                             battlefield.Mech.EquipWeapon(target)
+                            Console.WriteLine(battlefield.Mech.Name & " equips " & target.Name & ".")
                             Exit While
                         Case "s"c
                             Console.WriteLine(battlefield.Mech.ConsoleReport)

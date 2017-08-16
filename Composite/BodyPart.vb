@@ -22,6 +22,7 @@
             Return _IsVital
         End Get
     End Property
+    Public IsInvulnerable As Boolean
     Public ReadOnly Property IsWeapon As Boolean
         Get
             If WeaponType = Nothing Then Return False Else Return True

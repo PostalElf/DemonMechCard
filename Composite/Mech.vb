@@ -35,7 +35,7 @@
     End Function
     Private Function EquipWeaponCheck(ByVal tbp As BodyPart) As String
         If TotalHandsFree < tbp.HandCost Then Return "Insufficient hands"
-        If WeaponsEquipped.Contains(tbp) = False Then Return "Invalid handweapon"
+        If WeaponsInventory.Contains(tbp) = False Then Return "Invalid handweapon"
 
         Return Nothing
     End Function
