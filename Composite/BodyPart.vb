@@ -22,6 +22,11 @@
             Return _IsVital
         End Get
     End Property
+    Public Shadows ReadOnly Property IsQuick As Boolean
+        Get
+            Return MyBase.IsQuick
+        End Get
+    End Property
     Public IsInvulnerable As Boolean
     Public ReadOnly Property IsWeapon As Boolean
         Get

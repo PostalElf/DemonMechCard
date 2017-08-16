@@ -40,6 +40,21 @@
 
         Return total
     End Function
+    Public Function GetAllies(ByVal target As Combatant) As List(Of Combatant)
+        Dim total As New List(Of Combatant)
+        If TypeOf target Is Mech OrElse TypeOf target Is Companion Then
+            total.Add(Mech)
+            total.AddRange(Companions)
+            total.Remove(target)
+        ElseIf TypeOf target Is Enemy Then
+            total.AddRange(Enemies)
+            total.Remove(target)
+        Else
+            Throw New Exception("No allies available.")
+            Return Nothing
+        End If
+        Return total
+    End Function
     Public Overrides ReadOnly Property IsOver As Boolean
         Get
             If Mech Is Nothing Then Return True

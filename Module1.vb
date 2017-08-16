@@ -61,13 +61,16 @@
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
             ElseIf TypeOf active Is Companion OrElse TypeOf active Is Mech Then
-
+                Dim Actions As Integer = 2
+                Dim HasAttacked As Boolean = False
                 While True
                     Dim choices As New Dictionary(Of Char, String)
                     With choices
                         .Add("a"c, "Attack")
+                        .Add("v"c, "Move")
                         .Add("e"c, "Equip Weapon")
                         .Add("s"c, "Examine Self")
+                        .Add("c"c, "Examine Companions")
                         .Add("x"c, "Examine Enemies")
                     End With
                     Dim choice As Char = Menu.getListChoice(choices, 0)
@@ -75,29 +78,43 @@
 
                     Select Case choice
                         Case "a"c
+                            If HasAttacked = True Then Console.WriteLine("You may only attack once per initiative.") : Continue While
                             Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.Attacks, 0, "Select an attack:")
                             If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Continue While
+                            Dim actionCost As Integer : If attack.IsQuick Then actionCost = 1 Else actionCost = 2
+                            If Actions < actionCost Then Console.WriteLine("Insufficient actions!") : Continue While
                             Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.Mech.GetPotentialTargets(attack), 0, "Select a target:")
                             If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
                             If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
                             Console.WriteLine(battlefield.Mech.PerformsAttack(attack, target, targetLimb))
-                            Exit While
+                            Actions -= actionCost
+                            HasAttacked = True
+                        Case "v"c
+
                         Case "e"c
-                            Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.getequippableweapons, 0, "Select a weapon to equip:")
+                            If Actions < 1 Then Console.WriteLine("Insufficient actions!") : Continue While
+                            Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.GetEquippableWeapons, 0, "Select a weapon to equip:")
                             If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
                             battlefield.Mech.EquipWeapon(target)
                             Console.WriteLine(battlefield.Mech.Name & " equips " & target.Name & ".")
-                            Exit While
+                            Actions -= 1
                         Case "s"c
                             Console.WriteLine(battlefield.Mech.ConsoleReport)
-                            Exit While
+                        Case "c"c
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetAllies(battlefield.Mech), 0, "Select companion:")
+                            If target Is Nothing Then Console.WriteLine("No valid companions!") : Continue While
+                            Console.WriteLine(target.ConsoleReport)
                         Case "x"c
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetTargets(battlefield.Mech), 0, "Select an enemy:")
+                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
+                            Console.WriteLine(target.ConsoleReport)
                     End Select
                 End While
 
                 Console.ReadKey()
-                Console.Clear()
+
+                If Actions <= 0 Then Exit While
             End If
         End While
     End Sub
