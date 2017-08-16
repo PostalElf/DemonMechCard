@@ -191,7 +191,7 @@
     End Sub
 
     Public Overrides Function ToString() As String
-        Return Name
+        Return "[" & HealthPercentage.ToString("000") & "%] " & Name
     End Function
     Public Function ConsoleReport() As String
         Dim total As String = ""
