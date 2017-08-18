@@ -79,22 +79,33 @@
                         Case "a"c
                             Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.Attacks, 0, "Select an attack:")
                             If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Continue While
-                            If battlefield.Mech.IsReadyAct(attack.IsQuick) = False Then Console.WriteLine("You may only attack once per turn.") : Continue While
+                            Dim attackType As String : If attack.IsQuick = True Then attackType = "QuickAttack" Else attackType = "Attack"
+                            If battlefield.Mech.CheckAction(attackType) = False Then Console.WriteLine("You may only attack once per turn.") : Continue While
                             Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.Mech.GetPotentialTargets(attack), 0, "Select a target:")
                             If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
                             If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
+                            Console.Clear()
                             Console.WriteLine(battlefield.Mech.PerformsAttack(attack, target, targetLimb))
-                            battlefield.Mech.FlagAction(attack.IsQuick)
+                            If attack.IsQuick = True Then battlefield.Mech.FlagAction("QuickAttack") Else battlefield.Mech.FlagAction("Attack")
                         Case "v"c
-
+                            If battlefield.Mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Continue While
+                            Dim forwardBack As New Dictionary(Of Char, String)
+                            forwardBack.Add("f"c, "Forwards")
+                            forwardBack.Add("b"c, "Backwards")
+                            Select Case Menu.getListChoice(forwardBack, 0, "Move Forwards or Backwards?")
+                                Case "f"c : battlefield.Mech.PerformsMove(True)
+                                Case "b"c : battlefield.Mech.PerformsMove(False)
+                                Case Else : Continue While
+                            End Select
+                            battlefield.Mech.FlagAction("Move")
                         Case "e"c
-                            If battlefield.Mech.IsReadyAct(True) = False Then Console.WriteLine("Insufficient actions!") : Continue While
+                            If battlefield.Mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Continue While
                             Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.GetEquippableWeapons, 0, "Select a weapon to equip:")
                             If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
                             battlefield.Mech.EquipWeapon(target)
                             Console.WriteLine(battlefield.Mech.Name & " equips " & target.Name & ".")
-                            battlefield.Mech.FlagAction(True)
+                            battlefield.Mech.FlagAction("Equip")
                         Case "s"c
                             Console.WriteLine(battlefield.Mech.ConsoleReport)
                         Case "c"c

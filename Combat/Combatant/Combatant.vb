@@ -41,34 +41,31 @@
             Return total
         End Get
     End Property
-    Private HasTakenStandardAction As Boolean
-    Private HasTakenQuickAction As Boolean
-    Public ReadOnly Property IsReadyAct(Optional ByVal isQuick As Boolean = False) As Boolean
-        Get
-            If isQuick = True Then
-                'quick action
-                Return Not (HasTakenQuickAction)
-            Else
-                'standard action
-                If HasTakenQuickAction = False AndAlso HasTakenStandardAction = False Then Return True
-                Return False
-            End If
-        End Get
-    End Property
-    Public Sub FlagAction(Optional ByVal isQuick As Boolean = False)
-        If isQuick = True Then
-            'quick action
-            HasTakenQuickAction = True
-        Else
-            'standard action
-            HasTakenQuickAction = True
-            HasTakenStandardAction = True
-        End If
+    Private Actions As Integer
+    Private HasAttacked As Boolean
+    Private HasMoved As Boolean
+    Public Sub FlagAction(ByVal actionType As String)
+        Select Case actionType
+            Case "Attack" : HasAttacked = True : Actions -= 2
+            Case "QuickAttack" : HasAttacked = True : Actions -= 1
+            Case "Move" : HasMoved = True : Actions -= 1
+            Case "Equip" : Actions -= 1
+        End Select
     End Sub
+    Public Function CheckAction(ByVal actionType As String) As Boolean
+        Select Case actionType
+            Case "Attack" : If HasAttacked = True OrElse Actions < 2 Then Return False Else Return True
+            Case "QuickAttack" : If HasAttacked = True OrElse Actions < 1 Then Return False Else Return True
+            Case "Move" : If HasMoved = True OrElse Actions < 1 Then Return False Else Return True
+            Case "Equip" : If Actions < 1 Then Return False Else Return True
+            Case Else : Return True
+        End Select
+    End Function
     Public Sub EndInit()
         'remove action flags
-        HasTakenQuickAction = False
-        HasTakenStandardAction = False
+        HasAttacked = False
+        HasMoved = False
+        Actions = 2
     End Sub
 
     Private DistanceFromMiddle As AttackRange
@@ -83,6 +80,17 @@
             Case Else : Return AttackRange.Out
         End Select
     End Function
+    Public Sub PerformsMove(ByVal isForward As Boolean)
+        'default movement is one range
+        If isForward = True Then
+            DistanceFromMiddle += 1
+            If DistanceFromMiddle > AttackRange.Far Then DistanceFromMiddle = AttackRange.Far
+        Else
+            DistanceFromMiddle -= 1
+            If DistanceFromMiddle < AttackRange.Close Then DistanceFromMiddle = AttackRange.Close
+        End If
+    End Sub
+
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
     Public Function GetPotentialAttacks(ByVal target As Combatant) As List(Of BodyPart)
         Dim potentialTargets = Battlefield.GetTargets(Me)
@@ -188,6 +196,7 @@
         For Each bp In BodyParts
             bp.FullReady()
         Next
+        EndInit()
     End Sub
 
     Public Overrides Function ToString() As String
