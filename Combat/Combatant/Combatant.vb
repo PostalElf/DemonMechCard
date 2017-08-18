@@ -80,9 +80,9 @@
             Case Else : Return AttackRange.Out
         End Select
     End Function
-    Public Sub PerformsMove(ByVal isForward As Boolean)
+    Public Sub PerformsMove(ByVal direction As Char)
         'default movement is one range
-        If isForward = True Then
+        If direction = "f"c Then
             DistanceFromMiddle += 1
             If DistanceFromMiddle > AttackRange.Far Then DistanceFromMiddle = AttackRange.Far
         Else

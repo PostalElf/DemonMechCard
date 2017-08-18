@@ -94,8 +94,8 @@
                             forwardBack.Add("f"c, "Forwards")
                             forwardBack.Add("b"c, "Backwards")
                             Select Case Menu.getListChoice(forwardBack, 0, "Move Forwards or Backwards?")
-                                Case "f"c : battlefield.Mech.PerformsMove(True)
-                                Case "b"c : battlefield.Mech.PerformsMove(False)
+                                Case "f"c : battlefield.Mech.PerformsMove("f"c)
+                                Case "b"c : battlefield.Mech.PerformsMove("b"c)
                                 Case Else : Continue While
                             End Select
                             battlefield.Mech.FlagAction("Move")
