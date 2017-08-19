@@ -45,11 +45,11 @@ ExtraHands: 1
 
 [Powerfist]
 Slot: Hand
-ExtraHands: 1
 WeaponType: Conventional
 DamageMin: 2
 DamageSpread: 2
 DamageType: Kinetic
+IsQuick: True
 AmmoMax: 10
 AttackRanges: Near
 AttackRangesRemove: Average, Far

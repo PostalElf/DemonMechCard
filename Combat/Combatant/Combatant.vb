@@ -68,10 +68,15 @@
         Actions = 2
     End Sub
 
-    Private DistanceFromMiddle As AttackRange
+    Private _DistanceFromMiddle As AttackRange
+    Public ReadOnly Property DistanceFromMiddle As AttackRange
+        Get
+            Return _DistanceFromMiddle
+        End Get
+    End Property
     Private Function GetDistance(ByVal target As Combatant) As AttackRange
-        Dim total As Integer = DistanceFromMiddle
-        total += target.DistanceFromMiddle
+        Dim total As Integer = _DistanceFromMiddle
+        total += target._DistanceFromMiddle
 
         Select Case total
             Case 0 : Return AttackRange.Close
@@ -82,12 +87,12 @@
     End Function
     Public Sub PerformsMove(ByVal direction As Char)
         'default movement is one range
-        If direction = "f"c Then
-            DistanceFromMiddle += 1
-            If DistanceFromMiddle > AttackRange.Far Then DistanceFromMiddle = AttackRange.Far
+        If direction = "b"c Then
+            _DistanceFromMiddle += 1
+            If _DistanceFromMiddle > AttackRange.Far Then _DistanceFromMiddle = AttackRange.Far
         Else
-            DistanceFromMiddle -= 1
-            If DistanceFromMiddle < AttackRange.Close Then DistanceFromMiddle = AttackRange.Close
+            _DistanceFromMiddle -= 1
+            If _DistanceFromMiddle < AttackRange.Close Then _DistanceFromMiddle = AttackRange.Close
         End If
     End Sub
 
@@ -207,7 +212,7 @@
         total &= Name & vbCrLf
         total &= "└ Health:   " & HealthPercentage & "%" & vbCrLf
         total &= "└ Init:     " & SpeedTokens & vbCrLf
-        total &= "└ Position: " & DistanceFromMiddle.ToString & vbCrLf
+        total &= "└ Position: " & _DistanceFromMiddle.ToString & vbCrLf
 
         total &= "└ Limbs:" & vbCrLf
         For Each bp In BodyParts

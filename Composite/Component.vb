@@ -129,6 +129,7 @@
 
         If WeaponType = Nothing AndAlso c.WeaponType <> Nothing Then WeaponType = c.WeaponType
         _HandCost += c._HandCost
+        If c.IsQuick = True Then IsQuick = True
         For Each ar In c.AttackRanges
             If AttackRanges.Contains(ar) = False Then AttackRanges.Add(ar)
         Next

@@ -61,6 +61,7 @@
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
             ElseIf TypeOf active Is Companion OrElse TypeOf active Is Mech Then
+                Dim mech As Mech = battlefield.Mech
                 While True
                     Dim choices As New Dictionary(Of Char, String)
                     With choices
@@ -77,47 +78,49 @@
 
                     Select Case choice
                         Case "a"c
-                            Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.Attacks, 0, "Select an attack:")
+                            Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(mech.Attacks, 0, "Select an attack:")
                             If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Continue While
                             Dim attackType As String : If attack.IsQuick = True Then attackType = "QuickAttack" Else attackType = "Attack"
-                            If battlefield.Mech.CheckAction(attackType) = False Then Console.WriteLine("You may only attack once per turn.") : Continue While
-                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.Mech.GetPotentialTargets(attack), 0, "Select a target:")
+                            If mech.CheckAction(attackType) = False Then Console.WriteLine("You may only attack once per turn.") : Continue While
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(mech.GetPotentialTargets(attack), 0, "Select a target:")
                             If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
                             If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
                             Console.Clear()
-                            Console.WriteLine(battlefield.Mech.PerformsAttack(attack, target, targetLimb))
-                            If attack.IsQuick = True Then battlefield.Mech.FlagAction("QuickAttack") Else battlefield.Mech.FlagAction("Attack")
+                            Console.WriteLine(mech.PerformsAttack(attack, target, targetLimb))
+                            If attack.IsQuick = True Then mech.FlagAction("QuickAttack") Else mech.FlagAction("Attack")
                         Case "v"c
-                            If battlefield.Mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Continue While
+                            If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Continue While
                             Dim forwardBack As New Dictionary(Of Char, String)
                             forwardBack.Add("f"c, "Forwards")
                             forwardBack.Add("b"c, "Backwards")
                             Select Case Menu.getListChoice(forwardBack, 0, "Move Forwards or Backwards?")
-                                Case "f"c : battlefield.Mech.PerformsMove("f"c)
-                                Case "b"c : battlefield.Mech.PerformsMove("b"c)
+                                Case "f"c : mech.PerformsMove("f"c)
+                                Case "b"c : mech.PerformsMove("b"c)
                                 Case Else : Continue While
                             End Select
-                            battlefield.Mech.FlagAction("Move")
+                            Console.WriteLine()
+                            Console.WriteLine(mech.Name & " is now at " & mech.DistanceFromMiddle.ToString & " range.")
+                            mech.FlagAction("Move")
                         Case "e"c
-                            If battlefield.Mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Continue While
-                            Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(battlefield.Mech.GetEquippableWeapons, 0, "Select a weapon to equip:")
+                            If mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Continue While
+                            Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(mech.GetEquippableWeapons, 0, "Select a weapon to equip:")
                             If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
-                            battlefield.Mech.EquipWeapon(target)
-                            Console.WriteLine(battlefield.Mech.Name & " equips " & target.Name & ".")
-                            battlefield.Mech.FlagAction("Equip")
+                            mech.EquipWeapon(target)
+                            Console.WriteLine(mech.Name & " equips " & target.Name & ".")
+                            mech.FlagAction("Equip")
                         Case "s"c
-                            Console.WriteLine(battlefield.Mech.ConsoleReport)
+                            Console.WriteLine(mech.ConsoleReport)
                         Case "c"c
-                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetAllies(battlefield.Mech), 0, "Select companion:")
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetAllies(mech), 0, "Select companion:")
                             If target Is Nothing Then Console.WriteLine("No valid companions!") : Continue While
                             Console.WriteLine(target.ConsoleReport)
                         Case "x"c
-                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetTargets(battlefield.Mech), 0, "Select an enemy:")
+                            Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetTargets(mech), 0, "Select an enemy:")
                             If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
                             Console.WriteLine(target.ConsoleReport)
                         Case "."c
-                            battlefield.Mech.EndInit()
+                            mech.EndInit()
                             Exit While
                     End Select
                 End While
