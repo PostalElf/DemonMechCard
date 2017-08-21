@@ -2,7 +2,7 @@
 Limb: Spiked Tentacle
 Limb: Spiked Tentacle
 Limb: Spiked Tentacle
-Limb: Chest Carapace
+Vital: Chest Carapace
 Critical: Monster Heart
 
 [Succubus]

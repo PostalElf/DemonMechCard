@@ -12,6 +12,14 @@
         End Get
     End Property
     Public Enemies As New List(Of Combatant)
+    Private Function GetCombatants(ByVal location As AttackRange) As List(Of Combatant)
+        Dim total As New List(Of Combatant)
+        If Mech.DistanceFromMiddle = location Then total.Add(Mech)
+        For Each c In Companions.Concat(Enemies)
+            If c.DistanceFromMiddle = location Then total.Add(c)
+        Next
+        Return total
+    End Function
     Public Sub AddCombatant(ByVal combatant As Combatant)
         combatant.Battlefield = Me
         Select Case combatant.GetType
@@ -125,6 +133,17 @@
             End While
         End With
         Return bf
+    End Function
+    Public Function ConsoleReport()
+        Dim total As String = ""
+        For Each ar In [Enum].GetValues(GetType(AttackRange))
+            total &= ar.ToString & ":" & vbCrLf
+            Dim cs As List(Of Combatant) = GetCombatants(ar)
+            For Each c In cs
+                total &= " └ " & c.ToString & vbCrLf
+            Next
+        Next
+        Return total
     End Function
     Public Overrides Function ToString() As String
         Return Mech.Name & " vs " & Enemies.Count

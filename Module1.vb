@@ -3,9 +3,9 @@
     Sub Main()
         Dim handcannon As BodyPart
         With Blueprint.Load("Handcannon")
-            .AddComponent(Component.Load("Rifled Barrel"))
-            .AddComponent(Component.Load("Automatic Clip"))
-            .AddComponent(Component.Load("Albedo Rounds"))
+            .AddComponent("Rifled Barrel")
+            .AddComponent("Automatic Clip")
+            .AddComponent("Albedo Rounds")
             handcannon = .Construct("Alchemical Pistol", DamageType.Alchemical)
         End With
 
@@ -56,7 +56,6 @@
     Private Sub Combat(ByVal battlefield As Battlefield)
         While battlefield.IsOver = False
             Dim active As Combatant = battlefield.InitBagGrab
-            Console.WriteLine("It is " & active.Name & "'s initiative.")
             If TypeOf active Is Enemy Then
                 Console.WriteLine(CType(active, Enemy).PerformAction)
                 Console.ReadKey()
@@ -73,6 +72,9 @@
                         .Add("x"c, "Examine Enemies")
                         .Add("."c, "End Turn")
                     End With
+                    Console.Clear()
+                    Console.WriteLine("It is " & active.Name & "'s initiative.")
+                    Console.WriteLine(battlefield.ConsoleReport())
                     Dim choice As Char = Menu.getListChoice(choices, 0)
                     Console.WriteLine()
 
@@ -86,8 +88,8 @@
                             If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
                             If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
-                            Console.Clear()
                             Console.WriteLine(mech.PerformsAttack(attack, target, targetLimb))
+                            Console.ReadKey()
                             If attack.IsQuick = True Then mech.FlagAction("QuickAttack") Else mech.FlagAction("Attack")
                         Case "v"c
                             If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Continue While

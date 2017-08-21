@@ -84,7 +84,7 @@
             End While
 
             Select Case critVital
-                Case "Critical" : ._IsCritical = True
+                Case "Critical" : ._IsCritical = True : ._IsVital = True
                 Case "Vital" : ._IsVital = True
             End Select
         End With
