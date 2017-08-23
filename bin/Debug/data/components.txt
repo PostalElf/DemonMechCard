@@ -67,4 +67,4 @@ Health: 20
 Slot: Power Source
 IsCritical: True
 Health: 10
-Speed: 1
+Speed: 10
