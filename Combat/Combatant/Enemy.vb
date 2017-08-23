@@ -59,6 +59,9 @@
         Dim targetLimb As BodyPart = GetRandom(Of BodyPart)(targetLimbs)
 
         'actually attack
-        Return MyBase.PerformsAttack(attack, target, targetLimb)
+        PerformAction = MyBase.PerformsAttack(attack, target, targetLimb)
+
+        'end turn
+        EndInit()
     End Function
 End Class
