@@ -33,6 +33,7 @@
             .AddComponent("Synthetic Network")
             .AddComponent("Nuclear Reactor")
             chassis = .Construct("Chassis", Nothing)
+            chassis.IsInvulnerable = True
         End With
 
         Dim mech As Mech
@@ -48,9 +49,7 @@
         Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
         BattleSequence.AddCombatant(mech)
         Dim battlefield As Battlefield = BattleSequence.GetEncounter("Battle")
-
-        mech.FullReady()
-        Combat(Battlefield)
+        Combat(battlefield)
     End Sub
 
     Private Sub Combat(ByVal battlefield As Battlefield)
