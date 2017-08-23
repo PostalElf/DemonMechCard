@@ -45,10 +45,10 @@
         End With
         mech.FullReady()
 
-        Dim BattleSequence As New BattleSequence
+        Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
         BattleSequence.AddCombatant(mech)
-        Dim Battlefield As Battlefield = Battlefield.Construct(BattleSequence, BattlefieldTerrain.Wasteland, 1)
-        mech.Battlefield = Battlefield
+        Dim battlefield As Battlefield = BattleSequence.GetEncounter("Battle")
+
         mech.FullReady()
         Combat(Battlefield)
     End Sub
@@ -122,6 +122,7 @@
                             Console.WriteLine(target.ConsoleReport)
                         Case "."c
                             mech.EndInit()
+                            Console.Clear()
                             Exit While
                     End Select
                     Console.ReadKey()

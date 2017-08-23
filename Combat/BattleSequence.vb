@@ -1,8 +1,8 @@
 ﻿Public Class BattleSequence
     Private Terrain As BattlefieldTerrain
     Private Difficulty As Integer
-    Private Sequence As New Queue(Of Encounter)
-    Private ActiveBattlefield As Battlefield
+    Private LengthMax As Integer
+    Private Length As Integer
 
     Public Mech As Mech
     Public Companions As New List(Of Combatant)
@@ -12,10 +12,8 @@
         With bs
             .Terrain = _terrain
             .Difficulty = difficulty
-
-            For n = 1 To length
-                .Sequence.Enqueue(Encounter.Construct(bs, .Terrain, .Difficulty))
-            Next
+            .LengthMax = length
+            .Length = .LengthMax
         End With
         Return bs
     End Function
@@ -35,4 +33,16 @@
             Mech = Nothing
         End If
     End Sub
+    Public Function GetEncounter(Optional ByVal encounterType As String = "") As Encounter
+        Length -= 1
+        If encounterType = "" Then
+            Select Case Length
+                Case Is < 0 : Return Nothing
+                Case 0 : encounterType = "Boss"
+                Case LengthMax / 2 : encounterType = "Branch"
+            End Select
+        End If
+
+        Return Encounter.Construct(Me, Terrain, Difficulty, encounterType)
+    End Function
 End Class

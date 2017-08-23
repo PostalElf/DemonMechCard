@@ -94,6 +94,7 @@
 
             'get enemyList, which is a list of enemySets
             'eg. [1] Tentacled Horror, Tentacled Horror, 
+            'bosses are tagged, eg. [1 Boss] Eater of Souls
             Dim enemyFileName As String = "data/enemies/" & .Terrain.ToString.ToLower & ".txt"
             Dim categoryName As String = difficulty
             If isBoss = True Then categoryName &= " Boss"
@@ -103,8 +104,14 @@
             Dim chosenEnemySet As Queue(Of String) = GetRandom(Of Queue(Of String))(enemyList)
             While chosenEnemySet.Count > 0
                 Dim enemyName As String = chosenEnemySet.Dequeue
-                .AddCombatant(enemy.Load(enemyName))
+                .AddCombatant(Enemy.Load(enemyName))
             End While
+
+            'add mech and companions
+            .BattleSequence.Mech.Battlefield = bf
+            For Each c In .BattleSequence.Companions
+                c.Battlefield = bf
+            Next
         End With
         Return bf
     End Function
