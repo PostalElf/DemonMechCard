@@ -64,7 +64,7 @@
 
     Public Overloads Shared Function Load(ByVal enemyLimbName As String, ByVal critVital As String) As BodyPart
         'builds bodypart from a name in enemylimbs.txt
-        Dim raw As Queue(Of String) = SquareBracketLoader("data/enemylimbs.txt", enemyLimbName)
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/enemies/enemylimbs.txt", enemyLimbName)
 
         Dim bp As New BodyPart
         With bp
