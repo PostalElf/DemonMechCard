@@ -1,6 +1,15 @@
 ﻿Module Module1
 
     Sub Main()
+        Dim Mech As Mech = BuildMech()
+
+        Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
+        BattleSequence.AddCombatant(Mech)
+
+        Dim battlefield As Battlefield = BattleSequence.GetEncounter("Battle")
+        Combat(battlefield)
+    End Sub
+    Private Function BuildMech() As Mech
         Dim handcannon As BodyPart
         With Blueprint.Load("Handcannon")
             .AddComponent("Rifled Barrel")
@@ -46,12 +55,8 @@
         End With
         mech.FullReady()
 
-        Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
-        BattleSequence.AddCombatant(mech)
-        Dim battlefield As Battlefield = BattleSequence.GetEncounter("Battle")
-        Combat(battlefield)
-    End Sub
-
+        Return mech
+    End Function
     Private Sub Combat(ByVal battlefield As Battlefield)
         While battlefield.IsOver = False
             Dim active As Combatant = battlefield.InitBagGrab
