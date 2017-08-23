@@ -81,33 +81,33 @@
                     Select Case choice
                         Case "a"c
                             Dim attack As BodyPart = Menu.getListChoice(Of BodyPart)(mech.Attacks, 0, "Select an attack:")
-                            If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Continue While
+                            If attack Is Nothing Then Console.WriteLine("You have no attacks!") : Console.ReadKey() : Continue While
                             Dim attackType As String : If attack.IsQuick = True Then attackType = "QuickAttack" Else attackType = "Attack"
-                            If mech.CheckAction(attackType) = False Then Console.WriteLine("You may only attack once per turn.") : Continue While
+                            If mech.CheckAction(attackType) = False Then Console.WriteLine("You may only attack once per turn.") : Console.ReadKey() : Continue While
                             Dim target As Combatant = Menu.getListChoice(Of Combatant)(mech.GetPotentialTargets(attack), 0, "Select a target:")
-                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
+                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Console.ReadKey() : Continue While
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
-                            If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Continue While
+                            If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Console.ReadKey() : Continue While
                             Console.WriteLine(mech.PerformsAttack(attack, target, targetLimb))
                             Console.ReadKey()
                             If attack.IsQuick = True Then mech.FlagAction("QuickAttack") Else mech.FlagAction("Attack")
                         Case "v"c
-                            If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Continue While
+                            If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Console.ReadKey() : Continue While
                             Dim forwardBack As New Dictionary(Of Char, String)
                             forwardBack.Add("f"c, "Forwards")
                             forwardBack.Add("b"c, "Backwards")
                             Select Case Menu.getListChoice(forwardBack, 0, "Move Forwards or Backwards?")
                                 Case "f"c : mech.PerformsMove("f"c)
                                 Case "b"c : mech.PerformsMove("b"c)
-                                Case Else : Continue While
+                                Case Else : Console.ReadKey("Invalid selection.") : Console.ReadKey() : Continue While
                             End Select
                             Console.WriteLine()
                             Console.WriteLine(mech.Name & " is now at " & mech.DistanceFromMiddle.ToString & " range.")
                             mech.FlagAction("Move")
                         Case "e"c
-                            If mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Continue While
+                            If mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Console.ReadKey() : Continue While
                             Dim target As BodyPart = Menu.getListChoice(Of BodyPart)(mech.GetEquippableWeapons, 0, "Select a weapon to equip:")
-                            If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Continue While
+                            If target Is Nothing Then Console.WriteLine("No valid handweapons!") : Console.ReadKey() : Continue While
                             mech.EquipWeapon(target)
                             Console.WriteLine(mech.Name & " equips " & target.Name & ".")
                             mech.FlagAction("Equip")
@@ -115,19 +115,18 @@
                             Console.WriteLine(mech.ConsoleReport)
                         Case "c"c
                             Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetAllies(mech), 0, "Select companion:")
-                            If target Is Nothing Then Console.WriteLine("No valid companions!") : Continue While
+                            If target Is Nothing Then Console.WriteLine("No valid companions!") : Console.ReadKey() : Continue While
                             Console.WriteLine(target.ConsoleReport)
                         Case "x"c
                             Dim target As Combatant = Menu.getListChoice(Of Combatant)(battlefield.GetTargets(mech), 0, "Select an enemy:")
-                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Continue While
+                            If target Is Nothing Then Console.WriteLine("No valid targets!") : Console.ReadKey() : Continue While
                             Console.WriteLine(target.ConsoleReport)
                         Case "."c
                             mech.EndInit()
                             Exit While
                     End Select
+                    Console.ReadKey()
                 End While
-
-                Console.ReadKey()
             End If
         End While
     End Sub
