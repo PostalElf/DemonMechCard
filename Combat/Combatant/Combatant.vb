@@ -21,26 +21,23 @@
             Return total
         End Get
     End Property
-    Public ReadOnly Property HealthPercentage As Integer
-        Get
-            Dim total As Double = TotalHealth / TotalHealthMax * 100
-            Return Math.Ceiling(total)
-        End Get
-    End Property
-    Public ReadOnly Property SpeedTokens As Integer
+    Private ReadOnly Property TotalSpeed As Integer
         Get
             Dim total As Integer = 0
             For Each bp In BodyParts
                 total += bp.Speed
             Next
             total += BaseModifier.Speed
-
-            'return /= 10 for the number of tokens it adds to the bag, minimum 1
-            total /= 10
-            If total <= 0 Then total = 1
             Return total
         End Get
     End Property
+    Public ReadOnly Property HealthPercentage As Integer
+        Get
+            Dim total As Double = TotalHealth / TotalHealthMax * 100
+            Return Math.Ceiling(total)
+        End Get
+    End Property
+    Private Initiative As Integer
     Private Actions As Integer
     Private HasAttacked As Boolean
     Private HasMoved As Boolean
@@ -61,11 +58,19 @@
             Case Else : Return True
         End Select
     End Function
+    Public Function InitTick() As Boolean
+        Initiative -= 1
+        If Initiative <= 0 Then Return True
+        Return False
+    End Function
     Public Sub EndInit()
         'remove action flags
         HasAttacked = False
         HasMoved = False
         Actions = 2
+
+        'reset initiative
+        Initiative = 50 - TotalSpeed
     End Sub
 
     Private _DistanceFromMiddle As AttackRange
@@ -211,7 +216,7 @@
         Dim total As String = ""
         total &= Name & vbCrLf
         total &= "└ Health:   " & HealthPercentage & "%" & vbCrLf
-        total &= "└ Init:     " & SpeedTokens & vbCrLf
+        total &= "└ Speed:    " & totalspeed & vbCrLf
         total &= "└ Position: " & _DistanceFromMiddle.ToString & vbCrLf
 
         total &= "└ Limbs:" & vbCrLf

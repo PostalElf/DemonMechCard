@@ -2,7 +2,7 @@
     Inherits Combatant
 
     Public Shared Function Load(ByVal enemyName As String) As Enemy
-        Dim raw As Queue(Of String) = SquareBracketLoader("data/enemies.txt", enemyName)
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/enemies/enemies.txt", enemyName)
         If raw Is Nothing Then Throw New Exception("Invalid Enemy Name") : Return Nothing
 
         Dim enemy As New Enemy
@@ -59,6 +59,9 @@
         Dim targetLimb As BodyPart = GetRandom(Of BodyPart)(targetLimbs)
 
         'actually attack
-        Return MyBase.PerformsAttack(attack, target, targetLimb)
+        PerformAction = MyBase.PerformsAttack(attack, target, targetLimb)
+
+        'end turn
+        EndInit()
     End Function
 End Class

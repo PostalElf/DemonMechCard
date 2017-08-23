@@ -89,7 +89,6 @@
                             Dim targetLimb As BodyPart = Menu.getListChoice(Of BodyPart)(target.GetTargetableLimbs, 0, "Select a target limb:")
                             If targetLimb Is Nothing Then Console.WriteLine("No valid target limbs!") : Console.ReadKey() : Continue While
                             Console.WriteLine(mech.PerformsAttack(attack, target, targetLimb))
-                            Console.ReadKey()
                             If attack.IsQuick = True Then mech.FlagAction("QuickAttack") Else mech.FlagAction("Attack")
                         Case "v"c
                             If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Console.ReadKey() : Continue While
