@@ -6,6 +6,16 @@
     Protected ComponentTypesEmpty As New List(Of String)
     Protected ComponentTypesFilled As New List(Of String)
     Protected ComponentPrices As New Dictionary(Of String, Integer)
+    Public ReadOnly Property TotalCost As Integer
+        Get
+            Dim total As Integer = 0
+            For Each c In Components
+                total += GetComponentCost(c)
+            Next
+            total += GetComponentCost(BlueprintModifier)
+            Return total
+        End Get
+    End Property
 
     Public Shared Function Load(ByVal blueprintName As String) As Blueprint
         Dim raw As Queue(Of String) = SquareBracketLoader("data/blueprints.txt", blueprintName)
@@ -107,4 +117,10 @@
         ComponentTypesFilled.Remove(c.Slot)
         ComponentTypesEmpty.Add(c.Slot)
     End Sub
+    Private Function GetComponentCost(ByVal c As Component) As Integer
+        If ComponentPrices.ContainsKey(c.Slot) = False Then Throw New Exception("ComponentPrices not updated for " & c.Slot) : Return 0
+
+        Dim modifier As Double = ComponentPrices(c.Slot) / 100
+        Return Math.Floor(c.Cost * modifier)
+    End Function
 End Class

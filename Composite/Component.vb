@@ -45,6 +45,12 @@
             Return _InventorySpace
         End Get
     End Property
+    Protected _Cost As Integer
+    Public ReadOnly Property Cost As Integer
+        Get
+            Return _Cost
+        End Get
+    End Property
 
     Public Shared Function Load(ByVal componentName As String) As Component
         Dim raw As Queue(Of String) = SquareBracketLoader("data/components.txt", componentName)
@@ -115,6 +121,7 @@
             Case "Speed" : _Speed = CInt(value)
             Case "ExtraHands" : _ExtraHands += CInt(value)
             Case "InventorySpace" : _InventorySpace += CInt(value)
+            Case "Cost" : _Cost += CInt(value)
         End Select
     End Sub
     Public Sub Merge(ByVal c As Component)
@@ -147,6 +154,7 @@
         _Speed += c._Speed
         _ExtraHands += c._ExtraHands
         _InventorySpace += c._InventorySpace
+        _Cost += c._Cost
     End Sub
     Public Overrides Function ToString() As String
         Return Slot
