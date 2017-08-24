@@ -1,7 +1,7 @@
 ﻿Public Class Sefirot
     Private Names As String() = {"Malchut", "Yesod", "Hod", "Netzach", "Tiferet", "Gevurah", "Chesed", "Daat", "Binah", "Chochmah", "Keter"}
     Private BrokenSeals(10) As Boolean
-    Private LastBroken As Integer = -1
+    Private LastBroken As Integer
 
     Public Sub New()
         ResetSeals()
@@ -10,6 +10,7 @@
         For n = 0 To 10
             BrokenSeals(n) = False
         Next
+        LastBroken = -1
     End Sub
     Public Function CheckSealBreakage(ByVal i As Integer) As Boolean
         Return BrokenSeals(i)

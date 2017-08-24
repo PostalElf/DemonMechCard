@@ -1,5 +1,6 @@
 ﻿Public Class Mech
     Inherits Combatant
+    Private Sefirot As New Sefirot
     Private ReadOnly Property TotalHands As Integer
         Get
             Dim total As Integer = 0
@@ -90,5 +91,8 @@
         For Each weapon In WeaponsEquipped
             weapon.FullReady()
         Next
+
+        Sefirot.ResetSeals()
+        Sefirot.BreakSeal()
     End Sub
 End Class
