@@ -5,6 +5,7 @@
     Protected BlueprintModifier As New Component
     Protected ComponentTypesEmpty As New List(Of String)
     Protected ComponentTypesFilled As New List(Of String)
+    Protected ComponentPrices As New Dictionary(Of String, Integer)
 
     Public Shared Function Load(ByVal blueprintName As String) As Blueprint
         Dim raw As Queue(Of String) = SquareBracketLoader("data/blueprints.txt", blueprintName)
@@ -30,7 +31,13 @@
     End Function
     Protected Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
-            Case "ComponentType" : ComponentTypesEmpty.Add(value)
+            Case "Component"
+                Dim v As String() = value.Split("|")
+                Dim cName As String = v(0).Trim
+                Dim cCost As Integer = CInt(v(1).Trim)
+                ComponentTypesEmpty.Add(cName)
+                If ComponentPrices.ContainsKey(cName) = False Then ComponentPrices.Add(cName, 0)
+                ComponentPrices(cName) = cCost
             Case "Slot" : Slot = value
             Case Else : BlueprintModifier.Build(key, value)
         End Select

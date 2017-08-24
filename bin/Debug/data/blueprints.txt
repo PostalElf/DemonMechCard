@@ -1,25 +1,25 @@
 [Handcannon]
 Slot: Handweapon
 HandCost: 1
-ComponentType: Gun Barrel
-ComponentType: Gun Magazine
-ComponentType: Gun Ammo
+Component: Gun Barrel|100
+Component: Gun Magazine|100
+Component: Gun Ammo|100
 HandCost: 1
 AttackRangeRemove: Far
 IsQuick: True
 
 [Standard Arm]
 Slot: Arm
-ComponentType: Material
-ComponentType: Hand
-ComponentType: Motor
+Component: Material|100
+Component: Hand|100
+Component: Motor|100
 
 [Standard Chassis]
 Slot: Chassis
-ComponentType: Material
-ComponentType: Neural Net
-ComponentType: Power Source
+Component: Material|100
+Component: Neural Net|100
+Component: Power Source|100
 
 [Pauldrons]
 Slot: Shoulder
-ComponentType: Material
+Component: Material|100
