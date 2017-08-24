@@ -83,6 +83,10 @@
         End With
         Return mech
     End Function
+    Public Shared Function LoadFromUserDesign(ByVal targetUserDesignName As String) As Mech
+        Dim design As MechDesign = MechDesign.LoadUserDesign(targetUserDesignName)
+        Return design.Construct(targetUserDesignName)
+    End Function
     Public Overloads Sub FullReady()
         MyBase.FullReady()
         For Each weapon In WeaponsInventory

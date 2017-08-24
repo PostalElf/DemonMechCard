@@ -1,8 +1,7 @@
 ﻿Module Module1
 
     Sub Main()
-        Dim mech As Mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
-
+        Dim mech As Mech = mech.LoadFromUserDesign("Testsloth v1")
     End Sub
 
 
