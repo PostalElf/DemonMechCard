@@ -1,0 +1,24 @@
+[Alchemical Pistol v1]
+Handcannon
+Rifled Barrel
+Automatic Clip
+Albedo Rounds
+
+[Left Arm v1]
+Standard Arm
+Silvered Steel
+Articulated Hand
+Micromotor
+
+[Right Fist Arm v1]
+Standard Arm
+Nanocarbon Steel
+Powerfist
+Micromotor
+
+[Chassis v1]
+Standard Chassis
+Silvered Steel
+Synthetic Network
+Nuclear Reactor
+

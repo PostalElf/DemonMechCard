@@ -28,16 +28,6 @@
         End With
         Return blueprint
     End Function
-    Public Shared Function LoadUserDesign(ByVal userDesignName As String) As MechDesign
-        Dim raw As Queue(Of String) = SquareBracketLoader("data/user/blueprints.txt", userDesignName)
-        Dim blueprintName As String = raw.Dequeue
-
-        'get raw blueprint first
-
-    End Function
-    Public Sub SaveUserDesign()
-
-    End Sub
     Protected Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "ComponentType" : ComponentTypesEmpty.Add(value)
@@ -61,6 +51,37 @@
     Public Overrides Function ToString() As String
         Return BlueprintName
     End Function
+
+    Public Shared Function LoadUserDesign(ByVal TargetUserDesignName As String) As Blueprint
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/user/blueprints.txt", TargetUserDesignName)
+        Dim userDesignName As String = raw.Dequeue
+        Dim blueprintName As String = raw.Dequeue
+
+        'get raw blueprint first
+        Dim blueprint As Blueprint = Load(blueprintName)
+
+        'fill in with components
+        While raw.Count > 0
+            Dim componentName As String = raw.Dequeue
+            Dim component As Component = component.Load(componentName)
+            blueprint.AddComponent(component)
+        End While
+
+        Return blueprint
+    End Function
+    Public Sub SaveUserDesign(ByVal targetUserDesignName As String)
+        Dim raw As New Queue(Of String)
+        With raw
+            .Enqueue(targetUserDesignName)
+            .Enqueue(BlueprintName)
+
+            For Each c In Components
+                .Enqueue(c.Name)
+            Next
+        End With
+
+        SquareBracketPacker("data/user/blueprints.txt", raw)
+    End Sub
 
     Public Sub AddComponent(ByVal c As Component)
         If ComponentTypesEmpty.Contains(c.Slot) = False Then Exit Sub

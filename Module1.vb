@@ -1,7 +1,7 @@
 ﻿Module Module1
 
     Sub Main()
-
+        BuildMech()
     End Sub
 
 
@@ -21,6 +21,8 @@
             .AddComponent("Automatic Clip")
             .AddComponent("Albedo Rounds")
             handcannon = .Construct("Alchemical Pistol", DamageType.Alchemical)
+
+            .SaveUserDesign("Alchemical Pistol v1")
         End With
 
         Dim armL As BodyPart
@@ -30,6 +32,8 @@
             .AddComponent("Micromotor")
             armL = .Construct("Left Arm", DamageType.Kinetic)
             armL.IsInvulnerable = True
+
+            .SaveUserDesign("Left Arm v1")
         End With
 
         Dim armR As BodyPart
@@ -39,6 +43,8 @@
             .AddComponent("Micromotor")
             armR = .Construct("Right Fist Arm", DamageType.Kinetic)
             armR.IsInvulnerable = True
+
+            .SaveUserDesign("Right Fist Arm v1")
         End With
 
         Dim chassis As BodyPart
@@ -48,7 +54,12 @@
             .AddComponent("Nuclear Reactor")
             chassis = .Construct("Chassis", Nothing)
             chassis.IsInvulnerable = True
+
+            .SaveUserDesign("Chassis v1")
         End With
+
+        Dim chassisLoad = Blueprint.LoadUserDesign("Chassis v1")
+        Dim chassisLoaded = chassisLoad.Construct("Chassis v1", Nothing)
 
         Dim mech As Mech
         With MechDesign.Load("Testmech")
