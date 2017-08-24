@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Bunker.vb" />
     <Compile Include="Combat\AttackRange.vb" />
     <Compile Include="Combat\Battlefield.vb" />
     <Compile Include="Combat\BattlefieldTerrain.vb" />

@@ -6,7 +6,7 @@
     Protected ComponentTypesEmpty As New List(Of String)
     Protected ComponentTypesFilled As New List(Of String)
 
-    Public Overloads Shared Function Load(ByVal blueprintName As String) As Blueprint
+    Public Shared Function Load(ByVal blueprintName As String) As Blueprint
         Dim raw As Queue(Of String) = SquareBracketLoader("data/blueprints.txt", blueprintName)
         If raw Is Nothing Then Throw New Exception("Invalid BlueprintName") : Return Nothing
 
@@ -28,6 +28,16 @@
         End With
         Return blueprint
     End Function
+    Public Shared Function LoadUserDesign(ByVal userDesignName As String) As MechDesign
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/user/blueprints.txt", userDesignName)
+        Dim blueprintName As String = raw.Dequeue
+
+        'get raw blueprint first
+
+    End Function
+    Public Sub SaveUserDesign()
+
+    End Sub
     Protected Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "ComponentType" : ComponentTypesEmpty.Add(value)
