@@ -1,0 +1,7 @@
+[Testsloth v1]
+Testmech
+Alchemical Pistol v1
+Left Arm v1
+Right Fist Arm v1
+Chassis v1
+

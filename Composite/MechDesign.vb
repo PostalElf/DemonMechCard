@@ -16,13 +16,13 @@
         End With
         Return mechdesign
     End Function
-    Private Overloads Sub Build(ByVal key As String, ByVal value As String)
+    Private Shadows Sub Build(ByVal key As String, ByVal value As String)
         Select Case key
             Case "Slot" : ComponentTypesEmpty.Add(value)
             Case Else : BlueprintModifier.Build(key, value)
         End Select
     End Sub
-    Public Overloads Function Construct(ByVal mechName As String) As Mech
+    Public Shadows Function Construct(ByVal mechName As String) As Mech
         If ComponentTypesEmpty.Count > 0 Then Return Nothing
 
         Dim bodyparts As New List(Of BodyPart)
@@ -35,6 +35,41 @@
     Public Overrides Function ToString() As String
         Return BlueprintName
     End Function
+
+    Public Shared Shadows Function LoadUserDesign(ByVal targetUserDesignName As String) As MechDesign
+        Dim raw As Queue(Of String) = SquareBracketLoader("data/user/mechdesigns.txt", targetUserDesignName)
+        Dim userDesignName As String = raw.Dequeue
+        Dim blueprintName As String = raw.Dequeue
+
+        'get raw blueprint first
+        Dim MechBlueprint As MechDesign = MechDesign.Load(blueprintName)
+
+        'fill in with bodyparts
+        While raw.Count > 0
+            Dim partBlueprintName As String = raw.Dequeue
+            Dim partBlueprint As Blueprint = Blueprint.LoadUserDesign(partBlueprintName)
+            Dim part As BodyPart = partBlueprint.Construct(partBlueprintName, Nothing)
+            MechBlueprint.AddComponent(part)
+        End While
+
+        Return MechBlueprint
+    End Function
+    Public Shadows Sub SaveUserDesign(ByVal targetUserDesignName As String)
+        Dim raw As New Queue(Of String)
+        With raw
+            .Enqueue(targetUserDesignName)
+            .Enqueue(BlueprintName)
+
+            For Each hw In Inventory
+                .Enqueue(hw.Name)
+            Next
+            For Each c In Components
+                .Enqueue(c.Name)
+            Next
+        End With
+
+        SquareBracketPacker("data/user/mechdesigns.txt", raw)
+    End Sub
 
     Private ReadOnly Property InventorySpace As Integer
         Get

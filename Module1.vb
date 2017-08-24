@@ -1,7 +1,8 @@
 ﻿Module Module1
 
     Sub Main()
-        BuildMech()
+        Dim mech As Mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
+
     End Sub
 
 
@@ -22,14 +23,14 @@
 
             .SaveUserDesign("Alchemical Pistol v1")
         End With
-        Dim handcannon As BodyPart = Blueprint.LoadUserDesign("Alchemical Pistol v1").Construct("Alchemical Pistol", DamageType.Alchemical)
+        Dim handcannon As BodyPart = Blueprint.LoadUserDesign("Alchemical Pistol v1").Construct("Alchemical Pistol v1", DamageType.Alchemical)
 
         Dim armL As BodyPart
         With Blueprint.Load("Standard Arm")
             .AddComponent("Silvered Steel")
             .AddComponent("Articulated Hand")
             .AddComponent("Micromotor")
-            armL = .Construct("Left Arm", DamageType.Kinetic)
+            armL = .Construct("Left Arm v1", DamageType.Kinetic)
             armL.IsInvulnerable = True
 
             .SaveUserDesign("Left Arm v1")
@@ -40,7 +41,7 @@
             .AddComponent("Nanocarbon Steel")
             .AddComponent("Powerfist")
             .AddComponent("Micromotor")
-            armR = .Construct("Right Fist Arm", DamageType.Kinetic)
+            armR = .Construct("Right Fist Arm v1", DamageType.Kinetic)
             armR.IsInvulnerable = True
 
             .SaveUserDesign("Right Fist Arm v1")
@@ -51,7 +52,7 @@
             .AddComponent("Silvered Steel")
             .AddComponent("Synthetic Network")
             .AddComponent("Nuclear Reactor")
-            chassis = .Construct("Chassis", Nothing)
+            chassis = .Construct("Chassis v1", Nothing)
             chassis.IsInvulnerable = True
 
             .SaveUserDesign("Chassis v1")
@@ -63,8 +64,9 @@
             .AddComponent(armL)
             .AddComponent(armR)
             .AddComponent(chassis)
-            mech = .Construct("Testsloth")
+            .SaveUserDesign("Testsloth v1")
         End With
+        mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
         mech.FullReady()
 
         Return mech
