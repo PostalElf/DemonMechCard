@@ -79,6 +79,7 @@
     <Compile Include="Combat\Encounter.vb" />
     <Compile Include="Combat\Combatant\Enemy.vb" />
     <Compile Include="Combat\WeaponType.vb" />
+    <Compile Include="Composite\Sefirot.vb" />
     <Compile Include="Dev\Common.vb" />
     <Compile Include="Composite\BodyPart.vb" />
     <Compile Include="Composite\Component.vb" />

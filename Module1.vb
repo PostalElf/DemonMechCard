@@ -1,6 +1,11 @@
 ﻿Module Module1
 
     Sub Main()
+
+    End Sub
+
+
+    Private Sub TestCombat()
         Dim Mech As Mech = BuildMech()
 
         Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
