@@ -15,15 +15,14 @@
         Combat(battlefield)
     End Sub
     Private Function BuildMech() As Mech
-        Dim handcannon As BodyPart
         With Blueprint.Load("Handcannon")
             .AddComponent("Rifled Barrel")
             .AddComponent("Automatic Clip")
             .AddComponent("Albedo Rounds")
-            handcannon = .Construct("Alchemical Pistol", DamageType.Alchemical)
 
             .SaveUserDesign("Alchemical Pistol v1")
         End With
+        Dim handcannon As BodyPart = Blueprint.LoadUserDesign("Alchemical Pistol v1").Construct("Alchemical Pistol", DamageType.Alchemical)
 
         Dim armL As BodyPart
         With Blueprint.Load("Standard Arm")
@@ -57,9 +56,6 @@
 
             .SaveUserDesign("Chassis v1")
         End With
-
-        Dim chassisLoad = Blueprint.LoadUserDesign("Chassis v1")
-        Dim chassisLoaded = chassisLoad.Construct("Chassis v1", Nothing)
 
         Dim mech As Mech
         With MechDesign.Load("Testmech")
