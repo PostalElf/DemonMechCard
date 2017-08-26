@@ -11,4 +11,5 @@
             Return _SpaceUsed
         End Get
     End Property
+    Public BunkerEffects As New List(Of BunkerEffect)
 End Class

@@ -23,5 +23,13 @@
             Return total
         End Get
     End Property
+
     Private Rooms As New List(Of BunkerRoom)
+    Private Function GetBunkerEffects() As List(Of BunkerEffect)
+        Dim total As New List(Of BunkerEffect)
+        For Each r In Rooms
+            total.AddRange(r.BunkerEffects)
+        Next
+        Return total
+    End Function
 End Class
