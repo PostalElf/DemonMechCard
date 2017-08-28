@@ -73,6 +73,7 @@
         Initiative = 50 - TotalSpeed
     End Sub
 
+    Private Trap As Damage
     Private _DistanceFromMiddle As AttackRange
     Public ReadOnly Property DistanceFromMiddle As AttackRange
         Get
@@ -103,10 +104,9 @@
         End If
 
         'check for trap
-        Dim trap As Damage = Traps(_DistanceFromMiddle)
-        If trap.Min > 0 AndAlso trap.Max > 0 Then
+        If Trap.Min > 0 AndAlso Trap.Max > 0 Then
             Dim targetLimb As BodyPart = GetRandom(Of BodyPart)(GetTargetableLimbs)
-            total &= "Trap! It deals " & ApplyDamage(trap, targetLimb) & " to " & targetLimb.Name & "." & vbCrLf
+            total &= "Trap! It deals " & ApplyDamage(Trap, targetLimb) & " to " & targetLimb.Name & "." & vbCrLf
         End If
 
         total &= Name & " is now at " & DistanceFromMiddle.ToString & " range."
@@ -211,14 +211,6 @@
         Return Nothing
     End Function
 
-    Private Traps As New Dictionary(Of AttackRange, Damage)
-    Public Sub AddTrap(ByVal ar As AttackRange, ByVal trap As Damage)
-        Traps(ar) = trap
-    End Sub
-    Public Function CheckMove(ByVal ar As AttackRange) As Damage
-        Return Traps(ar)
-    End Function
-
     Public Battlefield As Battlefield
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
         Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
@@ -258,21 +250,16 @@
     Public Overrides Function ToString() As String
         Return "[" & HealthPercentage.ToString("000") & "%] " & Name
     End Function
-    Public Sub New()
-        For n = 0 To 2
-            Traps.Add(n, Nothing)
-        Next
-    End Sub
     Public Function ConsoleReport() As String
         Dim total As String = ""
         total &= Name & vbCrLf
         total &= "└ Health:   " & HealthPercentage & "%" & vbCrLf
-        total &= "└ Speed:    " & totalspeed & vbCrLf
+        total &= "└ Speed:    " & TotalSpeed & vbCrLf
         total &= "└ Position: " & _DistanceFromMiddle.ToString & vbCrLf
 
         total &= "└ Limbs:" & vbCrLf
         For Each bp In BodyParts
-            total &= "  └ " & bp.consolereport & vbCrLf
+            total &= "  └ " & bp.ConsoleReport & vbCrLf
         Next
         Return total
     End Function
