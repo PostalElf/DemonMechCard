@@ -49,7 +49,6 @@
             Dim partBlueprintName As String = raw.Dequeue
             Dim partBlueprint As Blueprint = Blueprint.LoadUserDesign(partBlueprintName)
             Dim part As BodyPart = partBlueprint.Construct(partBlueprintName, Nothing)
-            part.IsInvulnerable = True
             MechBlueprint.AddComponent(part)
         End While
 

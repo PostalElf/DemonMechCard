@@ -6,7 +6,8 @@
 
 
     Private Sub TestCombat()
-        Dim Mech As Mech = BuildMech()
+        Dim Mech As Mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
+        Mech.FullReady()
 
         Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
         BattleSequence.AddCombatant(Mech)
@@ -135,6 +136,7 @@
                             mech.EndInit()
                             Console.Clear()
                             Exit While
+                        Case Else : Continue While
                     End Select
                     Console.ReadKey()
                 End While
