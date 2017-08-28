@@ -102,11 +102,6 @@
             HourSpells(HourActive).Clear()
         End If
     End Sub
-    Public Sub LitHourReset()
-        For Each k In HourSpells.Keys
-            HourSpells(k).Clear()
-        Next
-    End Sub
 
     Public Shared Shadows Function Construct(ByVal _battleSequence As BattleSequence, ByVal _terrain As BattlefieldTerrain, ByVal difficulty As Integer, Optional ByVal isBoss As Boolean = False) As Battlefield
         Dim bf As New Battlefield
@@ -143,6 +138,7 @@
                 HourSpells.Add(h, New List(Of Spell))
             End If
         Next
+        HourActive = (Rng.Next(1, 5) * 2) - 1
     End Sub
     Public Function ConsoleReport()
         Dim total As String = ""

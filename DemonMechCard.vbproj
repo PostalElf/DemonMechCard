@@ -84,6 +84,8 @@
     <Compile Include="Combat\Damage.vb" />
     <Compile Include="Combat\Encounter.vb" />
     <Compile Include="Combat\Combatant\Enemy.vb" />
+    <Compile Include="Combat\Magic\LitHour.vb" />
+    <Compile Include="Combat\Magic\Spell.vb" />
     <Compile Include="Combat\WeaponType.vb" />
     <Compile Include="Composite\Sefirot.vb" />
     <Compile Include="Dev\Common.vb" />

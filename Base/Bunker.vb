@@ -47,7 +47,7 @@
 
         'increase and report
         _Money += Income
-        report.Add("Income: " & Income.ToString("$0.00"))
+        report.Add("Income: " & Income.ToString("¥0"))
         If _Money <= 5000 Then report.Add("Warning! Your reserves are low.")
 
         If _Money <= 0 Then Destroy()
