@@ -90,7 +90,9 @@
             Case Else : Return AttackRange.Out
         End Select
     End Function
-    Public Sub PerformsMove(ByVal direction As Char)
+    Public Function PerformsMove(ByVal direction As Char) As String
+        Dim total As String = ""
+
         'default movement is one range
         If direction = "b"c Then
             _DistanceFromMiddle += 1
@@ -99,7 +101,17 @@
             _DistanceFromMiddle -= 1
             If _DistanceFromMiddle < AttackRange.Close Then _DistanceFromMiddle = AttackRange.Close
         End If
-    End Sub
+
+        'check for trap
+        Dim trap As Damage = Traps(_DistanceFromMiddle)
+        If trap.Min > 0 AndAlso trap.Max > 0 Then
+            Dim targetLimb As BodyPart = GetRandom(Of BodyPart)(GetTargetableLimbs)
+            total &= "Trap! It deals " & ApplyDamage(trap, targetLimb) & " to " & targetLimb.Name & "." & vbCrLf
+        End If
+
+        total &= Name & " is now at " & DistanceFromMiddle.ToString & " range."
+        Return total
+    End Function
 
     Public MustOverride ReadOnly Property Attacks As List(Of BodyPart)
     Public Function GetPotentialAttacks(ByVal target As Combatant) As List(Of BodyPart)
@@ -199,6 +211,14 @@
         Return Nothing
     End Function
 
+    Private Traps As New Dictionary(Of AttackRange, Damage)
+    Public Sub AddTrap(ByVal ar As AttackRange, ByVal trap As Damage)
+        Traps(ar) = trap
+    End Sub
+    Public Function CheckMove(ByVal ar As AttackRange) As Damage
+        Return Traps(ar)
+    End Function
+
     Public Battlefield As Battlefield
     Private Function DestroyLimb(ByVal targetLimb As BodyPart) As String
         Dim total As String = Name & "'s " & targetLimb.Name & " is destroyed!"
@@ -238,6 +258,11 @@
     Public Overrides Function ToString() As String
         Return "[" & HealthPercentage.ToString("000") & "%] " & Name
     End Function
+    Public Sub New()
+        For n = 0 To 2
+            Traps.Add(n, Nothing)
+        Next
+    End Sub
     Public Function ConsoleReport() As String
         Dim total As String = ""
         total &= Name & vbCrLf

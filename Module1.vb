@@ -106,16 +106,17 @@
                         Case "v"c
                             If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Console.ReadKey() : Continue While
                             Console.WriteLine(mech.Name & " is currently at " & mech.DistanceFromMiddle.ToString & " range.")
+                            Dim report As String = ""
                             Dim forwardBack As New Dictionary(Of Char, String)
                             forwardBack.Add("f"c, "Forwards")
                             forwardBack.Add("b"c, "Backwards")
                             Select Case Menu.getListChoice(forwardBack, 0, "Move Forwards or Backwards?")
-                                Case "f"c : mech.PerformsMove("f"c)
-                                Case "b"c : mech.PerformsMove("b"c)
+                                Case "f"c : report = mech.PerformsMove("f"c)
+                                Case "b"c : report = mech.PerformsMove("b"c)
                                 Case Else : Console.ReadKey("Invalid selection.") : Console.ReadKey() : Continue While
                             End Select
                             Console.WriteLine()
-                            Console.WriteLine(mech.Name & " is now at " & mech.DistanceFromMiddle.ToString & " range.")
+                            Console.WriteLine(report)
                             mech.FlagAction("Move")
                         Case "e"c
                             If mech.CheckAction("Equip") = False Then Console.WriteLine("Insufficient actions!") : Console.ReadKey() : Continue While
