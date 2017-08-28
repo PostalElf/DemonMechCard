@@ -12,6 +12,15 @@
             ResearchThreshold.Add(rs, 0)
         Next
     End Sub
+    Private Sub Destroy()
+        'TODO
+    End Sub
+    Public Function Tick() As List(Of String)
+        Dim total As New List(Of String)
+        total.AddRange(IncomeTick)
+        total.AddRange(ResearchTick)
+        Return total
+    End Function
 
     Private Name As String
     Private _Money As Integer
@@ -20,6 +29,30 @@
             Return _Money
         End Get
     End Property
+    Public ReadOnly Property Income As Integer
+        Get
+            Dim total As Integer = 0
+            For Each a In Assets
+                total += a.Income
+            Next
+            For Each rf In ResearchFunding.Values
+                total += rf
+            Next
+            Return total
+        End Get
+    End Property
+    Private Assets As New List(Of Asset)
+    Private Function IncomeTick() As List(Of String)
+        Dim report As New List(Of String)
+
+        'increase and report
+        _Money += Income
+        report.Add("Income: " & Income.ToString("$0.00"))
+        If _Money <= 5000 Then report.Add("Warning! Your reserves are low.")
+
+        If _Money <= 0 Then Destroy()
+        Return report
+    End Function
 
     Private LandExcavated As Integer
     Private LandUnexcavated As Integer
@@ -86,26 +119,28 @@
     End Property
     Private ResearchSubranks As New Dictionary(Of ResearchSphere, Dictionary(Of String, Integer))
     Private ResearchFocus As New Dictionary(Of ResearchSphere, String)
-    Private ResearchFunding As New Dictionary(Of ResearchSphere, Integer)
+    Public ResearchFunding As New Dictionary(Of ResearchSphere, Integer)
     Private ResearchProgress As New Dictionary(Of ResearchSphere, Integer)
     Private ResearchThreshold As New Dictionary(Of ResearchSphere, Integer)
     Private ResearchOverflow As Integer
     Private ResearchOverflowThreshold As Integer
-    Private Sub ResearchTick()
+    Private Function ResearchTick() As List(Of String)
+        Dim report As New List(Of String)
         For Each rs In [Enum].GetValues(GetType(ResearchSphere))
             Dim progress As Integer = ResearchFunding(rs) * ResearchEfficiency(rs)
             ResearchProgress(rs) += progress
             If ResearchProgress(rs) >= ResearchThreshold(rs) Then
-                'get overflow
-                ResearchOverflow += Math.Abs(ResearchProgress(rs) - ResearchThreshold(rs))
-                If ResearchOverflow >= researchOverflowThreshold Then
-                    ResearchOverflow = Math.Abs(ResearchOverflow - ResearchOverflowThreshold)
-                    ResearchOverflowTick()
-                End If
-
-                'increase rank
+                'increase rank and report
                 Dim focus As String = ResearchFocus(rs)
                 ResearchSubranks(rs)(focus) += 1
+                report.Add("Research completed: " & focus & " (" & rs & ") is now rank " & ResearchSubranks(rs)(focus))
+
+                'get overflow
+                ResearchOverflow += Math.Abs(ResearchProgress(rs) - ResearchThreshold(rs))
+                If ResearchOverflow >= ResearchOverflowThreshold Then
+                    ResearchOverflow = Math.Abs(ResearchOverflow - ResearchOverflowThreshold)
+                    report.Add(ResearchOverflowTick())
+                End If
 
                 'reset progress, threshold, and focus
                 ResearchProgress(rs) = 0
@@ -113,8 +148,9 @@
                 ResearchFocus(rs) = GetResearchFocus(rs)
             End If
         Next
-    End Sub
-    Public Function GetResearchFocus(ByVal rs As ResearchSphere) As String
+        Return report
+    End Function
+    Private Function GetResearchFocus(ByVal rs As ResearchSphere) As String
         'get random lowest ranked subsphere
         Dim subspheres As List(Of String) = GetResearchSubSpheres(rs)
         Dim lowestSS As New List(Of String)
@@ -138,7 +174,7 @@
 
         Return GetRandom(Of String)(lowestSS)
     End Function
-    Private Sub ResearchOverflowTick()
+    Private Function ResearchOverflowTick() As String
         'TODO
-    End Sub
+    End Function
 End Class

@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Asset.vb" />
     <Compile Include="Base\Bunker.vb" />
     <Compile Include="Base\BunkerEffect.vb" />
     <Compile Include="Base\BunkerRoom.vb" />
