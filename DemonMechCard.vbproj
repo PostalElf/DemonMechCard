@@ -72,6 +72,8 @@
     <Compile Include="Base\Bunker.vb" />
     <Compile Include="Base\BunkerEffect.vb" />
     <Compile Include="Base\BunkerRoom.vb" />
+    <Compile Include="Base\Crew.vb" />
+    <Compile Include="Base\ResearchSphere.vb" />
     <Compile Include="Combat\AttackRange.vb" />
     <Compile Include="Combat\Battlefield.vb" />
     <Compile Include="Combat\BattlefieldTerrain.vb" />

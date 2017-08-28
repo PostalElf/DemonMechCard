@@ -1,7 +1,9 @@
 ﻿Module Module1
 
     Sub Main()
-        Dim mech As Mech = mech.LoadFromUserDesign("Testsloth v1")
+        'Dim mech As Mech = mech.LoadFromUserDesign("Testsloth v1")
+        Dim bunker As New Bunker
+        bunker.GetResearchFocus(ResearchSphere.Brass)
     End Sub
 
 
