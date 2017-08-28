@@ -145,10 +145,29 @@
         Dim damage As Damage = attackLimb.Damage
 
         'set targetLimb
-        If CheckProtection(targetLimb) <> Nothing Then Return "Target protected by " & CheckProtection(targetLimb)
+        If target.CheckProtection(targetLimb) <> Nothing Then Return "Target protected by " & target.CheckProtection(targetLimb)
 
-        'initialise report
+        'remove ammo
+        If attackLimb.Ammo <> -1 Then attackLimb.Ammo -= 1
+
+        'prime report, then actually apply damage
         Dim total As String = Name & " hits " & target.Name & "'s " & targetLimb.Name & " for "
+        total &= target.ApplyDamage(attackLimb.Damage, targetLimb)
+
+        'return report
+        Return total
+    End Function
+    Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
+        If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return "Invalid weapon!"
+        Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
+
+        If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return "Invalid limb target!"
+        Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
+
+        Return PerformsAttack(attackLimb, target, targetLimb)
+    End Function
+    Public Function ApplyDamage(ByVal damage As Damage, ByVal targetLimb As BodyPart) As String
+        Dim total As String = ""
 
         'roll for damage and check for modifiers
         Dim dmg As Integer = damage.Roll
@@ -167,25 +186,15 @@
         If modString <> "" Then total &= " [" & modString & "]"
 
         'actually do the attack
-        If attackLimb.Ammo <> -1 Then attackLimb.Ammo -= 1
         If targetLimb.IsInvulnerable = False Then targetLimb.Health -= dmg
-        If targetLimb.Health <= 0 Then total &= vbCrLf & target.DestroyLimb(targetLimb)
+        If targetLimb.Health <= 0 Then total &= vbCrLf & DestroyLimb(targetLimb)
 
-        'return report
         Return total
-    End Function
-    Public Function PerformsAttack(ByVal attackLimbIndex As Integer, ByVal target As Combatant, ByVal targetLimbIndex As Integer) As String
-        If attackLimbIndex < 0 OrElse attackLimbIndex > Attacks.Count Then Return "Invalid weapon!"
-        Dim attackLimb As BodyPart = Attacks(attackLimbIndex)
-
-        If targetLimbIndex < 0 OrElse targetLimbIndex > BodyParts.Count Then Return "Invalid limb target!"
-        Dim targetLimb As BodyPart = target.BodyParts(targetLimbIndex)
-
-        Return PerformsAttack(attackLimb, target, targetLimb)
     End Function
     Private Function CheckProtection(ByVal targetLimb As BodyPart) As String
         For Each bp In BodyParts
-            If bp.CheckProtecting("ALL") OrElse bp.CheckProtecting(targetLimb.Name) = True Then Return bp.Name
+            If bp.CheckProtecting("ALL") AndAlso targetLimb.Name <> bp.Name Then Return bp.Name
+            If bp.CheckProtecting(targetLimb.Name) = True Then Return bp.Name
         Next
         Return Nothing
     End Function

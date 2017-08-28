@@ -97,7 +97,7 @@
         If HourActive Mod 2 = 1 Then
             'active hour, resolve spells
             For Each spell In HourSpells(HourActive)
-                spell.Resolve()
+                spell.Resolve(Me)
             Next
             HourSpells(HourActive).Clear()
         End If
