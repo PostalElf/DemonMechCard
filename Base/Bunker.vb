@@ -101,7 +101,7 @@
     End Function
     Private Function GetResearchSubSpheres(ByVal rs As ResearchSphere) As List(Of String)
         Select Case rs
-            Case ResearchSphere.Iron : Return New List(Of String) From {"Alchemy", "Warfare", "Crusading"}
+            Case ResearchSphere.Iron : Return New List(Of String) From {"Alchemy", "Bellum Romanum", "Crusading"}
             Case ResearchSphere.Brass : Return New List(Of String) From {"Sigilcraft", "Samum", "Divination"}
             Case ResearchSphere.Silver : Return New List(Of String) From {"Thaumaturgy", "Baal Shem", "Hermeticism"}
             Case Else : Throw New Exception("ResearchSphere out of range")
