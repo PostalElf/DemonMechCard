@@ -34,7 +34,7 @@
             Case GetType(Enemy) : Enemies.Remove(combatant)
         End Select
     End Sub
-    Public Function GetTargets(ByVal attacker As Combatant) As List(Of Combatant)
+    Public Function GetTargets(ByVal attacker As Combatant, Optional ByVal AttackRange As AttackRange = Nothing) As List(Of Combatant)
         Dim total As New List(Of Combatant)
         If TypeOf attacker Is Mech OrElse TypeOf attacker Is Companion Then
             total.AddRange(Enemies)
@@ -46,9 +46,17 @@
             Return Nothing
         End If
 
+        'check range
+        If AttackRange <> Nothing Then
+            For n = total.Count - 1 To 0 Step -1
+                Dim c As Combatant = total(n)
+                If c.DistanceFromMiddle <> AttackRange Then total.RemoveAt(n)
+            Next
+        End If
+
         Return total
     End Function
-    Public Function GetAllies(ByVal target As Combatant) As List(Of Combatant)
+    Public Function GetAllies(ByVal target As Combatant, Optional ByVal AttackRange As AttackRange = Nothing) As List(Of Combatant)
         Dim total As New List(Of Combatant)
         If TypeOf target Is Mech OrElse TypeOf target Is Companion Then
             total.Add(Mech)
@@ -61,6 +69,15 @@
             Throw New Exception("No allies available.")
             Return Nothing
         End If
+
+        'check range
+        If AttackRange <> Nothing Then
+            For n = total.Count - 1 To 0 Step -1
+                Dim c As Combatant = total(n)
+                If c.DistanceFromMiddle <> AttackRange Then total.RemoveAt(n)
+            Next
+        End If
+
         Return total
     End Function
     Public Overrides ReadOnly Property IsOver As Boolean
