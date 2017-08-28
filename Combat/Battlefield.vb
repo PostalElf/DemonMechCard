@@ -86,6 +86,28 @@
         Return GrabRandom(Of Combatant)(InitBag)
     End Function
 
+    Private IsMagicResistant As Boolean
+    Private HourActive As LitHour
+    Private HourSpells As New Dictionary(Of LitHour, List(Of Spell))
+    Public Sub LitHourAdvance()
+        If IsMagicResistant = True Then HourActive += 1 Else HourActive += 2
+        If HourActive > 8 Then HourActive = LitHour.Matins
+
+        'check if it's an active hour
+        If HourActive Mod 2 = 1 Then
+            'active hour, resolve spells
+            For Each spell In HourSpells(HourActive)
+                spell.Resolve()
+            Next
+            HourSpells(HourActive).Clear()
+        End If
+    End Sub
+    Public Sub LitHourReset()
+        For Each k In HourSpells.Keys
+            HourSpells(k).Clear()
+        Next
+    End Sub
+
     Public Shared Shadows Function Construct(ByVal _battleSequence As BattleSequence, ByVal _terrain As BattlefieldTerrain, ByVal difficulty As Integer, Optional ByVal isBoss As Boolean = False) As Battlefield
         Dim bf As New Battlefield
         With bf
@@ -115,6 +137,13 @@
         End With
         Return bf
     End Function
+    Public Sub New()
+        For Each h In [Enum].GetValues(GetType(LitHour))
+            If h Mod 2 = 1 Then
+                HourSpells.Add(h, New List(Of Spell))
+            End If
+        Next
+    End Sub
     Public Function ConsoleReport()
         Dim total As String = ""
         For Each ar In [Enum].GetValues(GetType(AttackRange))
