@@ -1,12 +1,12 @@
 [Spiked Tentacle]
-Health: 15
-Speed: 10
+Health: 1
+Speed: 5
 Dodge: 10
 WeaponType: Conventional
 AttackRanges: Average, Close
 AmmoMax: -1
 Accuracy: 10
-Damage: 10 - 20 Kinetic
+Damage: 1 - 3 Kinetic
 
 [Chest Carapace]
 Protects: Monster Heart

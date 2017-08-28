@@ -1,7 +1,7 @@
 ﻿Module Module1
 
     Sub Main()
-        'Dim mech As Mech = mech.LoadFromUserDesign("Testsloth v1")
+        TestCombat()
     End Sub
 
 
@@ -30,8 +30,6 @@
             .AddComponent("Articulated Hand")
             .AddComponent("Micromotor")
             armL = .Construct("Left Arm v1", DamageType.Kinetic)
-            armL.IsInvulnerable = True
-
             .SaveUserDesign("Left Arm v1")
         End With
 
@@ -41,8 +39,6 @@
             .AddComponent("Powerfist")
             .AddComponent("Micromotor")
             armR = .Construct("Right Fist Arm v1", DamageType.Kinetic)
-            armR.IsInvulnerable = True
-
             .SaveUserDesign("Right Fist Arm v1")
         End With
 
@@ -52,8 +48,6 @@
             .AddComponent("Synthetic Network")
             .AddComponent("Nuclear Reactor")
             chassis = .Construct("Chassis v1", Nothing)
-            chassis.IsInvulnerable = True
-
             .SaveUserDesign("Chassis v1")
         End With
 

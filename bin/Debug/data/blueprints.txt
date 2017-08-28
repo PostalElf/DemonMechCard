@@ -1,5 +1,6 @@
 [Handcannon]
 Slot: Handweapon
+WeaponType: Conventional
 HandCost: 1
 Component: Gun Barrel|100
 Component: Gun Magazine|100

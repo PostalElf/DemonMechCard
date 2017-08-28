@@ -186,7 +186,11 @@
         BodyParts.Remove(targetLimb)
 
         'check if vital or critical
-        If Not (targetLimb.IsVital = False) OrElse Not (targetLimb.IsCritical = True AndAlso TotalHealth <= 0) Then
+        Dim critVit As Boolean = False
+        If targetLimb.IsVital = True Then : critVit = True
+        ElseIf targetLimb.IsCritical = True AndAlso TotalHealth <= 0 Then : critVit = True
+        End If
+        If critVit = True Then
             total &= vbCrLf & Name & " has been annihilated!"
             DestroySelf()
         End If
