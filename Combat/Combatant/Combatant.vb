@@ -120,9 +120,22 @@
     End Function
     Public Function GetTargetableLimbs() As List(Of BodyPart)
         Dim total As New List(Of BodyPart)
+        Dim protectors As New List(Of String)
+
+        'add all unprotected limbs
         For Each bp In BodyParts
-            If CheckProtection(bp) = "" Then total.Add(bp)
+            Dim protector As String = CheckProtection(bp)
+            If protector = "" Then total.Add(bp) Else protectors.Add(protector)
         Next
+
+        'add all protectors
+        For Each protector In protectors
+            For Each bp In BodyParts
+                If bp.Name = protector AndAlso total.Contains(bp) = False Then total.Add(bp)
+            Next
+        Next
+
+        'return
         Return total
     End Function
     Public Function PerformsAttack(ByVal attackLimb As BodyPart, ByVal target As Combatant, ByVal targetLimb As BodyPart) As String
@@ -172,7 +185,7 @@
     End Function
     Private Function CheckProtection(ByVal targetLimb As BodyPart) As String
         For Each bp In BodyParts
-            If bp.CheckProtecting(targetLimb.Name) = True Then Return targetLimb.Name
+            If bp.CheckProtecting("ALL") OrElse bp.CheckProtecting(targetLimb.Name) = True Then Return bp.Name
         Next
         Return Nothing
     End Function

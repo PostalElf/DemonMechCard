@@ -7,7 +7,7 @@ Albedo Rounds
 [Left Arm v1]
 Standard Arm
 Silvered Steel
-Articulated Hand
+Buckler
 Micromotor
 
 [Right Fist Arm v1]

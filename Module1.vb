@@ -6,7 +6,8 @@
 
 
     Private Sub TestCombat()
-        Dim Mech As Mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
+        'Dim Mech As Mech = MechDesign.LoadUserDesign("Testsloth v1").Construct("Testsloth v1")
+        Dim mech As Mech = BuildMech()
         Mech.FullReady()
 
         Dim BattleSequence As BattleSequence = BattleSequence.Construct(BattlefieldTerrain.Wasteland, 1, 3)
@@ -28,7 +29,7 @@
         Dim armL As BodyPart
         With Blueprint.Load("Standard Arm")
             .AddComponent("Silvered Steel")
-            .AddComponent("Articulated Hand")
+            .AddComponent("Buckler")
             .AddComponent("Micromotor")
             armL = .Construct("Left Arm v1", DamageType.Kinetic)
             .SaveUserDesign("Left Arm v1")
@@ -104,6 +105,7 @@
                             If attack.IsQuick = True Then mech.FlagAction("QuickAttack") Else mech.FlagAction("Attack")
                         Case "v"c
                             If mech.CheckAction("Move") = False Then Console.WriteLine("You may only move once per turn.") : Console.ReadKey() : Continue While
+                            Console.WriteLine(mech.Name & " is currently at " & mech.DistanceFromMiddle.ToString & " range.")
                             Dim forwardBack As New Dictionary(Of Char, String)
                             forwardBack.Add("f"c, "Forwards")
                             forwardBack.Add("b"c, "Backwards")

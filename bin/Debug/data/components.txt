@@ -54,6 +54,10 @@ AmmoMax: 10
 AttackRanges: Near
 AttackRangesRemove: Average, Far
 
+[Buckler]
+Slot: Hand
+Protects: ALL
+
 [Micromotor]
 Slot: Motor
 DamageSpread: -1
